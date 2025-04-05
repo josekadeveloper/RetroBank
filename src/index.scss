@@ -1,0 +1,45 @@
+body {
+  margin: 0;
+  background-color: #000;
+  color: #0f0;
+  font-family: "Courier New", Courier, monospace;
+}
+
+.terminal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  max-width: 600px;
+  margin: 5rem auto;
+  border: 2px solid #0f0;
+  background: #000;
+  box-shadow: 0 0 15px #0f0;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  h1,
+  p {
+    margin-bottom: 1rem;
+  }
+
+  input,
+  button {
+    background: black;
+    color: #0f0;
+    border: 1px solid #0f0;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    font-family: inherit;
+  }
+
+  button:hover {
+    background: #0f0;
+    color: #000;
+    cursor: pointer;
+  }
+}
