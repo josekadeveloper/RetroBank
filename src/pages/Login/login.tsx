@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { validateUser } from "../../store/storage";
 
 type Props = Readonly<{
@@ -8,10 +10,11 @@ type Props = Readonly<{
 export default function Login({ onLogin }: Props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const user = validateUser(username, password);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    const user = validateUser(username, password);
     if (user) {
       onLogin(username);
     } else {
@@ -21,8 +24,8 @@ export default function Login({ onLogin }: Props) {
 
   return (
     <div className="terminal">
-      <h1>LOGIN</h1>
-      <form onSubmit={handleSubmit}>
+      <h1>RETRO BANK</h1>
+      <form onSubmit={handleLogin}>
         <label htmlFor="username">Username:</label>
         <input
           id="username"
@@ -40,6 +43,14 @@ export default function Login({ onLogin }: Props) {
 
         <button type="submit">Login</button>
       </form>
+      <button
+        type="button"
+        onClick={() => {
+          if (!user) navigate("/register");
+        }}
+      >
+        Register
+      </button>
     </div>
   );
 }
