@@ -1,32 +1,52 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { registerUser } from "../../store/storage";
-
-type Props = {
-  readonly onRegister: (username: string) => void;
-};
+type Props = Readonly<{
+  onRegister: (username: string) => void;
+}>;
 
 export default function Register({ onRegister }: Props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [balance, setBalance] = useState(0);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (registerUser(username, password)) {
-      alert("User registered!");
-      onRegister(username);
+    setLoading(true);
+
+    try {
+      const response = await fetch(
+        "https://retro-bank.vercel.app/api/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ username, password }),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Error al registrar usuario");
+      }
+
+      const data = await response.json();
+      onRegister(data.user.username);
       navigate("/");
-    } else {
-      alert("Username already exists.");
+    } catch (error) {
+      alert("Registro fallido: " + (error as Error).message);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="terminal">
-      <h1>REGISTER</h1>
-      <form onSubmit={handleSubmit}>
+      <h1>REGISTRO</h1>
+      <form onSubmit={handleRegister}>
         <label htmlFor="username">Username:</label>
         <input
           id="username"
@@ -42,8 +62,21 @@ export default function Register({ onRegister }: Props) {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <button type="submit">Create Account</button>
+        <label htmlFor="balance">Balance:</label>
+        <input
+          id="balance"
+          type="number"
+          value={balance}
+          onChange={(e) => setBalance(Number(e.target.value))}
+        />
+
+        <button type="submit" disabled={loading}>
+          {loading ? "Registrando..." : "Register"}
+        </button>
       </form>
+      <button type="button" onClick={() => navigate("/")}>
+        Volver al login
+      </button>
     </div>
   );
 }

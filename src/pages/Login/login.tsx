@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { validateUser } from "../../store/storage";
-
 type Props = Readonly<{
   onLogin: (username: string) => void;
 }>;
@@ -10,15 +8,33 @@ type Props = Readonly<{
 export default function Login({ onLogin }: Props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const user = validateUser(username, password);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (user) {
-      onLogin(username);
-    } else {
-      alert("Invalid credentials");
+    setLoading(true);
+
+    try {
+      const response = await fetch("https://retro-bank.vercel.app/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Credenciales inválidas");
+      }
+
+      const data = await response.json();
+      onLogin(data.user.username); // o `data.user.id` si prefieres
+      navigate("/home");
+    } catch (error) {
+      alert("Login fallido: " + (error as Error).message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -41,14 +57,12 @@ export default function Login({ onLogin }: Props) {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <button type="submit">Login</button>
+        <button type="submit" disabled={loading}>
+          {loading ? "Logging in..." : "Login"}
+        </button>
       </form>
-      <button
-        type="button"
-        onClick={() => {
-          if (!user) navigate("/register");
-        }}
-      >
+
+      <button type="button" onClick={() => navigate("/register")}>
         Register
       </button>
     </div>
