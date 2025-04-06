@@ -1,27 +1,28 @@
 import { useState } from "react";
-import { validateUser } from "../../store/storage";
 
-type Props = Readonly<{
-  onLogin: (username: string) => void;
-}>;
+import { registerUser } from "../../store/storage";
 
-export default function Login({ onLogin }: Props) {
+type Props = {
+  readonly onRegister: (username: string) => void;
+};
+
+export default function Register({ onRegister }: Props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const user = validateUser(username, password);
-    if (user) {
-      onLogin(username);
+    if (registerUser(username, password)) {
+      alert("User registered!");
+      onRegister(username);
     } else {
-      alert("Invalid credentials");
+      alert("Username already exists.");
     }
   };
 
   return (
     <div className="terminal">
-      <h1>LOGIN</h1>
+      <h1>REGISTER</h1>
       <form onSubmit={handleSubmit}>
         <label htmlFor="username">Username:</label>
         <input
@@ -38,7 +39,7 @@ export default function Login({ onLogin }: Props) {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <button type="submit">Login</button>
+        <button type="submit">Create Account</button>
       </form>
     </div>
   );
