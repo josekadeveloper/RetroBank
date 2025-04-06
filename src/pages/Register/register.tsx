@@ -10,11 +10,12 @@ type Props = {
 export default function Register({ onRegister }: Props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [balance, setBalance] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (registerUser(username, password)) {
+    if (registerUser(username, password, parseInt(balance))) {
       alert("User registered!");
       onRegister(username);
       navigate("/");
@@ -40,6 +41,14 @@ export default function Register({ onRegister }: Props) {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+        />
+
+        <label htmlFor="balance">Balance:</label>
+        <input
+          id="balance"
+          type="number"
+          value={balance}
+          onChange={(e) => setBalance(e.target.value)}
         />
 
         <button type="submit">Create Account</button>

@@ -12,10 +12,14 @@ export const saveUsers = (users: User[]) => {
   localStorage.setItem(USERS_KEY, JSON.stringify(users));
 };
 
-export const registerUser = (username: string, password: string): boolean => {
+export const registerUser = (
+  username: string,
+  password: string,
+  balance: number
+): boolean => {
   const users = getUsers();
   if (users.find((u) => u.username === username)) return false;
-  users.push({ username, password, balance: 1000 });
+  users.push({ username, password, balance });
   saveUsers(users);
   return true;
 };
