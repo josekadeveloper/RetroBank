@@ -5,6 +5,7 @@ import Login from "./pages/Login/login";
 import Register from "./pages/Register/register";
 import Home from "./pages/Home/home";
 import History from "./pages/History/history";
+import UserList from "./pages/Users/user-list";
 
 import "./index.scss";
 
@@ -26,6 +27,7 @@ function App() {
         path="/"
         element={<Home user={user} onLogout={() => setUser(null)} />}
       />
+      <Route path="/users" element={<UserList />} />
       <Route path="/history" element={<History />} />
     </Routes>
   );
