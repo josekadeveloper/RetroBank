@@ -38,6 +38,7 @@ app.post("/uploadSuccessful", urlencodedParser, async (req, res) => {
 app.get("/api/users", async (req, res) => {
   try {
     const users = await sql`SELECT * FROM Users`;
+    console.log(users.rows);
     res.status(200).json(users.rows);
   } catch (error) {
     console.error(error);
