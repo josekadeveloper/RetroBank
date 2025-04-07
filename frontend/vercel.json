@@ -1,12 +1,8 @@
 {
   "rewrites": [
     {
-      "source": "/api/:match*",
-      "destination": "https://retro-bank-backend.vercel.app/api/:match*"
-    },
-    {
       "source": "/(.*)",
-      "destination": "/page/:match*"
+      "destination": "/pages/:match*"
     }
   ]
 }
