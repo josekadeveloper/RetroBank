@@ -4,7 +4,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 export const getUsers = async (): Promise<User[]> => {
   try {
-    const res = await fetch(`${API_URL}/users`);
+    const res = await fetch(`${API_URL}users`);
     if (!res.ok) {
       throw new Error("Error fetching users");
     }
@@ -21,7 +21,7 @@ export const registerUser = async (
   password: string,
   balance: number
 ): Promise<boolean> => {
-  const res = await fetch(`${API_URL}/register`, {
+  const res = await fetch(`${API_URL}register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ username, password, balance }),
@@ -34,7 +34,7 @@ export const validateUser = async (
   username: string,
   password: string
 ): Promise<User | null> => {
-  const res = await fetch(`${API_URL}/login`, {
+  const res = await fetch(`${API_URL}login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ username, password }),
@@ -45,7 +45,7 @@ export const validateUser = async (
 };
 
 export const getUserBalance = async (username: string): Promise<number> => {
-  const res = await fetch(`${API_URL}/balance/${username}`);
+  const res = await fetch(`${API_URL}balance/${username}`);
   if (!res.ok) return 0;
   const user: User = await res.json();
   return user.balance;
@@ -56,7 +56,7 @@ export const updateBalance = async (
   to: string,
   amount: number
 ): Promise<boolean> => {
-  const res = await fetch(`${API_URL}/transfer`, {
+  const res = await fetch(`${API_URL}transfer`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ from, to, amount }),
@@ -66,13 +66,13 @@ export const updateBalance = async (
 };
 
 export const getHistory = async (): Promise<Transaction[]> => {
-  const res = await fetch(`${API_URL}/history`);
+  const res = await fetch(`${API_URL}history`);
   if (!res.ok) return [];
   return await res.json();
 };
 
 export const saveTransaction = async (tx: Transaction) => {
-  await fetch(`${API_URL}/history`, {
+  await fetch(`${API_URL}history`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(tx),
