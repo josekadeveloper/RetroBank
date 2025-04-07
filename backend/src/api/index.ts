@@ -10,7 +10,14 @@ import usersRoutes from "../routes/users";
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://retro-bank-frontend.vercel.app",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
+
 app.use(bodyParser.json());
 
 app.use("/api/login", loginRoutes);
