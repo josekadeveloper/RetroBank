@@ -17,6 +17,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Login onLogin={setUser} />} />
         <Route path="/register" element={<Register onRegister={setUser} />} />
+        <Route path="/users" element={<UserList />} />
       </Routes>
     );
   }
@@ -27,7 +28,6 @@ function App() {
         path="/"
         element={<Home user={user} onLogout={() => setUser(null)} />}
       />
-      <Route path="/users" element={<UserList />} />
       <Route path="/history" element={<History />} />
     </Routes>
   );
