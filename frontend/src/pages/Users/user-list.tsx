@@ -1,6 +1,7 @@
 import { useUsers } from "../../hooks/use-get-users.hook";
 
 export default function UserList() {
+  console.log("UserList component rendered");
   const { data: users, isLoading, error } = useUsers();
 
   if (isLoading) return <p>Loading...</p>;
