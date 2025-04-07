@@ -4,7 +4,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 export const getUsers = async (): Promise<User[]> => {
   try {
-    const res = await fetch(`${API_URL}users`);
+    const res = await fetch(`${API_URL}/api/users`);
     if (!res.ok) {
       throw new Error("Error fetching users");
     }
@@ -21,7 +21,7 @@ export const registerUser = async (
   password: string,
   balance: number
 ): Promise<boolean> => {
-  const res = await fetch(`${API_URL}register`, {
+  const res = await fetch(`${API_URL}/api/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ username, password, balance }),
@@ -34,7 +34,7 @@ export const validateUser = async (
   username: string,
   password: string
 ): Promise<User | null> => {
-  const res = await fetch(`${API_URL}login`, {
+  const res = await fetch(`${API_URL}/api/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ username, password }),
@@ -66,7 +66,7 @@ export const updateBalance = async (
 };
 
 export const getHistory = async (): Promise<Transaction[]> => {
-  const res = await fetch(`${API_URL}history`);
+  const res = await fetch(`${API_URL}/api/history`);
   if (!res.ok) return [];
   return await res.json();
 };
