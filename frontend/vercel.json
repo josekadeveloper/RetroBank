@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/(.*)",
-      "destination": "/pages/:match*"
+      "destination": "/src/main.tsx"
     }
   ]
 }
