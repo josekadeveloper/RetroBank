@@ -40,7 +40,7 @@ app.get("/api/users", (req, res) => {
 app.post("/api/register", async (req: any, res: any) => {
   const { username, password, balance } = req.body;
 
-  if (!username || !password) {
+  if (!username || !password || !balance) {
     return res
       .status(400)
       .json({ message: "Username and password are required" });
