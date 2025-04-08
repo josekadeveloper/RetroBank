@@ -37,6 +37,39 @@ app.get("/api/users", (req, res) => {
   res.json(users);
 });
 
+app.post("/api/register", async (req: any, res: any) => {
+  const { username, password, balance } = req.body;
+
+  if (!username || !password) {
+    return res
+      .status(400)
+      .json({ message: "Username and password are required" });
+  }
+
+  try {
+    // Verifica si el usuario ya existe
+    const userExists = await pool.query(
+      "SELECT * FROM users WHERE username = $1",
+      [username]
+    );
+
+    if (userExists.rows.length > 0) {
+      return res.status(409).json({ message: "Username already exists" });
+    }
+
+    // Inserta el nuevo usuario en la base de datos
+    await pool.query(
+      "INSERT INTO users (username, password, balance) VALUES ($1, $2, $3)",
+      [username, password, balance]
+    );
+
+    res.status(201).json({ message: "User registered successfully" });
+  } catch (error) {
+    console.error("Error registering user:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 app.post("/api/login", async (req, res) => {
   const { username, password } = req.body;
 

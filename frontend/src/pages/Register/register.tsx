@@ -1,27 +1,33 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { registerUser } from "../../store/storage";
-
-// type Props = {
-//   readonly onRegister: (username: string) => void;
-// };
+import RegisterValidator from "../../components/RegisterValidator/register-validator";
 
 export default function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [balance, setBalance] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [triggerValidation, setTriggerValidation] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (await registerUser(username, password, parseInt(balance))) {
-      alert("User registered!");
-      // onRegister(username);
-      navigate("/");
-    } else {
-      alert("Username already exists.");
-    }
+    setIsSubmitting(true);
+    setTriggerValidation(true);
+  };
+
+  const handleSuccess = () => {
+    navigate("/home");
+  };
+
+  const handleError = (error: string) => {
+    alert(error);
+  };
+
+  const handleDone = () => {
+    setIsSubmitting(false);
+    setTriggerValidation(false);
   };
 
   return (
@@ -33,6 +39,7 @@ export default function Register() {
           id="username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          disabled={isSubmitting}
         />
 
         <label htmlFor="password">Password:</label>
@@ -41,6 +48,7 @@ export default function Register() {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          disabled={isSubmitting}
         />
 
         <label htmlFor="balance">Balance:</label>
@@ -49,10 +57,23 @@ export default function Register() {
           type="number"
           value={balance}
           onChange={(e) => setBalance(e.target.value)}
+          disabled={isSubmitting}
         />
 
-        <button type="submit">Create Account</button>
+        <button type="submit" disabled={isSubmitting}>
+          Create Account
+        </button>
       </form>
+
+      <RegisterValidator
+        username={username}
+        password={password}
+        balance={parseInt(balance)}
+        trigger={triggerValidation}
+        onSuccess={handleSuccess}
+        onError={handleError}
+        onDone={handleDone}
+      />
     </div>
   );
 }
