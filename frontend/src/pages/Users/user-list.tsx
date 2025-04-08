@@ -1,11 +1,10 @@
 import { QueryClient, QueryClientProvider } from "react-query";
 
-import { useUsers } from "../../hooks/use-get-users.hook";
+import { useGetUsers } from "../../hooks/use-get-users.hook";
 
 export default function UserList() {
-  console.log("UserList component rendered");
   const queryClient = new QueryClient();
-  const { data: users, isLoading, error } = useUsers();
+  const { data: users, isLoading, error } = useGetUsers();
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error loading users</p>;

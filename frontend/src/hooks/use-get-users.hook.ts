@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { User } from "../models/model";
 import { API_URL } from "../utils/constant";
 
-export const useUsers = () =>
+export const useGetUsers = () =>
   useQuery<User[]>({
     queryKey: ["users"],
     queryFn: async () => {

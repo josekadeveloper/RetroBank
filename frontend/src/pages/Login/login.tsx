@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { validateUser } from "../../store/storage";
+import { useValidateUser } from "../../hooks/use-validate-users";
 
 type Props = Readonly<{
   onLogin: (username: string) => void;
@@ -10,16 +10,22 @@ type Props = Readonly<{
 export default function Login({ onLogin }: Props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
-  const user = validateUser(username, password);
+  const validateUser = useValidateUser(username, password);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (await user) {
+    setIsSubmitting(true);
+    const { data, error } = await validateUser.refetch();
+
+    if (data?.token) {
       onLogin(username);
     } else {
-      alert("Invalid credentials");
+      alert(error?.message ?? "Invalid credentials");
     }
+
+    setIsSubmitting(false);
   };
 
   return (
@@ -31,6 +37,7 @@ export default function Login({ onLogin }: Props) {
           id="username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          disabled={isSubmitting}
         />
 
         <label htmlFor="password">Password:</label>
@@ -39,15 +46,19 @@ export default function Login({ onLogin }: Props) {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          disabled={isSubmitting}
         />
 
-        <button type="submit">Login</button>
+        <button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? "Logging in..." : "Login"}
+        </button>
       </form>
       <button
         type="button"
         onClick={() => {
           navigate("/register");
         }}
+        disabled={isSubmitting}
       >
         Register
       </button>

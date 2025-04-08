@@ -10,3 +10,8 @@ export type User = {
   password: string;
   balance: number;
 };
+
+export type LoginResponse = {
+  user: User;
+  token: string;
+};
