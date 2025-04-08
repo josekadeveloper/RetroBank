@@ -2,7 +2,6 @@ import { Transaction, User } from "../models/model";
 import { API_URL } from "../utils/constant";
 
 export const getUsers = async (): Promise<User[]> => {
-  console.log("Fetching users from API...");
   try {
     const res = await fetch(`${API_URL}/api/users`);
     if (!res.ok) {

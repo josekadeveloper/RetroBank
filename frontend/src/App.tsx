@@ -4,9 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import Login from "./pages/Login/login";
 import Register from "./pages/Register/register";
-// import Home from "./pages/Home/home";
-// import History from "./pages/History/history";
-// import UserList from "./pages/Users/user-list";
+import Home from "./pages/Home/home";
 
 import "./index.scss";
 
@@ -17,6 +15,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <Routes>
         <Route path="/" element={<Login />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/register" element={<Register />} />
       </Routes>
     </QueryClientProvider>

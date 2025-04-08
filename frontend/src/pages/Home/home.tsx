@@ -1,31 +1,25 @@
+// import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+// import TransactionForm from "../../components/TransactionForm/transaction-form";
+import { useGetBalance } from "../../hooks/use-get-balance.hook";
 
-import { getUserBalance } from "../../store/storage";
-import TransactionForm from "../../components/TransactionForm/transaction-form";
-
-type Props = {
-  readonly user: string;
-  readonly onLogout: () => void;
-};
-
-export default function Home({ user, onLogout }: Props) {
+export default function Home() {
   const navigate = useNavigate();
-  const [balance, setBalance] = useState<number>(0);
 
-  useEffect(() => {
-    async function fetchBalance() {
-      setBalance(await getUserBalance(user));
-    }
-    fetchBalance();
-  }, [user]);
+  const actualUserName = localStorage.getItem("username");
+  const balance = useGetBalance(actualUserName?.toString() ?? "");
+
+  const onLogout = () => {
+    localStorage.removeItem("username");
+    navigate("/");
+  };
 
   return (
     <div className="terminal">
-      <h1>WELCOME, {user.toUpperCase()}</h1>
-      <p>Balance: ${balance.toFixed(2)}</p>
-      <TransactionForm user={user} />
-      <button onClick={() => navigate("/history")}>View History</button>
+      <h1>WELCOME, {actualUserName?.toUpperCase()}</h1>
+      <p>Balance: ${balance.data?.balance.toFixed(2)}</p>
+      {/* <TransactionForm user={user.username} /> */}
+      {/* <button onClick={() => navigate("/history")}>View History</button> */}
       <button onClick={onLogout}>Logout</button>
     </div>
   );

@@ -2,6 +2,9 @@ import cors from "cors";
 import express from "express";
 import bodyParser from "body-parser";
 import pg from "pg";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3030;
@@ -13,7 +16,13 @@ const pool = new Pool({
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:5173", "https://retro-bank-frontend.vercel.app"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 
 app.get("/", (req, res) => {
   res.status(200).send("Hello World!");
@@ -30,15 +39,12 @@ app.get("/api/users", (req, res) => {
 
 app.post("/api/login", async (req, res) => {
   const { username, password } = req.body;
-  console.log("Login attempt:", username, password);
 
   try {
-    console.log("Before Query:");
     const result = await pool.query(
       "SELECT * FROM users WHERE username = $1 AND password = $2",
       [username, password]
     );
-    console.log("After Query:");
 
     if (result.rows.length > 0) {
       // Usuario encontrado
@@ -53,9 +59,24 @@ app.post("/api/login", async (req, res) => {
   }
 });
 
-app.post("/api/home", (req, res) => {
+app.get("/api/balance", async (req, res) => {
   const { username } = req.body;
-  res.status(200).json({ message: `Welcome ${username}` });
+
+  try {
+    const result = await pool.query(
+      "SELECT balance FROM users WHERE username = $1",
+      [username]
+    );
+
+    if (result.rows.length > 0) {
+      res.json({ balance: result.rows[0].balance });
+    } else {
+      res.status(401).json({ message: "Invalid credentials" });
+    }
+  } catch (error) {
+    console.error("Error querying the database:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
 });
 
 app.listen(PORT, "0.0.0.0", () => {

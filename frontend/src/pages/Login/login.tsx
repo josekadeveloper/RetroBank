@@ -3,12 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import UserValidator from "../../components/UserValidator/user-validator";
 
-// type Props = Readonly<{
-//   onLogin: (username: string) => void;
-// }>;
-
 export default function Login() {
-  console.log("Login component rendered");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -16,25 +11,21 @@ export default function Login() {
   const navigate = useNavigate();
 
   const handleLogin = (e: React.FormEvent) => {
-    console.log("handleLogin", username, password);
     e.preventDefault();
     setIsSubmitting(true);
     setTriggerValidation(true);
   };
 
   const handleSuccess = () => {
-    console.log("handleSuccess", username, password);
-    // onLogin(username);
-    navigate("/dashboard");
+    localStorage.setItem("username", JSON.stringify({ username }));
+    navigate("/home");
   };
 
   const handleError = (error: string) => {
-    console.log("handleError", username, password, error);
     alert(error);
   };
 
   const handleDone = () => {
-    console.log("handleDone", username, password);
     setIsSubmitting(false);
     setTriggerValidation(false);
   };

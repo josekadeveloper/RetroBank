@@ -5,10 +5,14 @@ export type Transaction = {
   date: string;
 };
 
+export type Balance = {
+  balance: number;
+};
+
 export type User = {
   username: string;
   password: string;
-  balance: number;
+  balance: Balance;
 };
 
 export type LoginResponse = {
