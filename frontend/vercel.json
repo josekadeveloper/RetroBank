@@ -1,15 +1,15 @@
 {
   "rewrites": [
     {
-      "source": "/",
-      "destination": "https://retrobank-backend.up.railway.app/api/login"
-    },
-    {
-      "source": "/:path*",
+      "source": "/api/:path*",
       "destination": "https://retrobank-backend.up.railway.app/api/:path*"
     },
     {
-      "source": "/(.*)",
+      "source": "/",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/:path*",
       "destination": "/index.html"
     }
   ]

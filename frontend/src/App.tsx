@@ -24,7 +24,7 @@ function App() {
   return (
     <Routes>
       <Route
-        path="/home"
+        path="/"
         element={<Home user={user} onLogout={() => setUser(null)} />}
       />
       <Route path="/users" element={<UserList />} />
