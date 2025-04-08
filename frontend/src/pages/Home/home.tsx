@@ -8,9 +8,7 @@ export default function Home() {
 
   const storedUser = localStorage.getItem("username");
   const actualUserName = storedUser ? JSON.parse(storedUser).username : null;
-  console.log("actualUserName", actualUserName);
-  const balance = useGetBalance(actualUserName);
-  console.log("balance", balance);
+  const { data } = useGetBalance(actualUserName);
 
   const onLogout = () => {
     localStorage.removeItem("username");
@@ -20,7 +18,7 @@ export default function Home() {
   return (
     <div className="terminal">
       <h1>WELCOME, {actualUserName?.toUpperCase()}</h1>
-      <p>Balance: $</p>
+      <p>Balance: ${data?.balance}</p>
       {/* <TransactionForm user={user.username} /> */}
       {/* <button onClick={() => navigate("/history")}>View History</button> */}
       <button onClick={onLogout}>Logout</button>

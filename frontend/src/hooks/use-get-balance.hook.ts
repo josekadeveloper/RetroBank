@@ -5,7 +5,7 @@ import { Balance } from "../models/model";
 
 export const useGetBalance = (username: string) =>
   useQuery<Balance>({
-    queryKey: ["user", username],
+    queryKey: ["balance", username],
     queryFn: async () => {
       const res = await fetch(`${API_URL}/api/balance`, {
         method: "POST",
