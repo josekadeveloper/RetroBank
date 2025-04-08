@@ -1,6 +1,10 @@
 {
   "rewrites": [
     {
+      "source": "/",
+      "destination": "https://retrobank-backend.up.railway.app/api/login"
+    },
+    {
       "source": "/:path*",
       "destination": "https://retrobank-backend.up.railway.app/api/:path*"
     },

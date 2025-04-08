@@ -51,7 +51,7 @@ app.post("/api/login", async (req, res) => {
   }
 });
 
-app.post("/welcome", (req, res) => {
+app.post("/api/home", (req, res) => {
   const { username } = req.body;
   res.status(200).json({ message: `Welcome ${username}` });
 });
