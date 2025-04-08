@@ -47,7 +47,7 @@ export const getUserBalance = async (username: string): Promise<number> => {
   const res = await fetch(`${API_URL}balance/${username}`);
   if (!res.ok) return 0;
   const user: User = await res.json();
-  return user.balance;
+  return Number(user.balance);
 };
 
 export const updateBalance = async (
