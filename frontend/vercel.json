@@ -5,11 +5,7 @@
       "destination": "https://retrobank-backend.up.railway.app/api/:path*"
     },
     {
-      "source": "/login",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/:path*",
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ]
