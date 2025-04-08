@@ -17,7 +17,9 @@ export default function Login({ onLogin }: Props) {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    console.log("login");
     const { data, error } = await validateUser.refetch();
+    console.log("data", data);
 
     if (data?.token) {
       onLogin(username);
