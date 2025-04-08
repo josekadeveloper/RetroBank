@@ -1,9 +1,14 @@
 import cors from "cors";
 import express from "express";
 import bodyParser from "body-parser";
+import { Pool } from "pg";
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3030;
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL, // URL de la base de datos desde las variables de entorno
+});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -22,12 +27,26 @@ app.get("/api/users", (req, res) => {
   res.json(users);
 });
 
-app.post("/api/login", (req, res) => {
+app.post("/api/login", async (req, res) => {
   const { username, password } = req.body;
-  if (username === "admin" && password === "password") {
-    res.json({ message: "Login successful", token: "dummy_token" });
-  } else {
-    res.status(401).json({ message: "Invalid credentials" });
+
+  try {
+    // Consulta SQL para verificar las credenciales
+    const result = await pool.query(
+      "SELECT * FROM users WHERE username = $1 AND password = $2",
+      [username, password]
+    );
+
+    if (result.rows.length > 0) {
+      // Usuario encontrado
+      res.json({ message: "Login successful", token: "dummy_token" });
+    } else {
+      // Usuario no encontrado
+      res.status(401).json({ message: "Invalid credentials" });
+    }
+  } catch (error) {
+    console.error("Error querying the database:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 
