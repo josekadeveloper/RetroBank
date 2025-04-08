@@ -8,7 +8,7 @@ export const useGetBalance = (username: string) =>
     queryKey: ["user", username],
     queryFn: async () => {
       const res = await fetch(`${API_URL}/api/balance`, {
-        method: "GET",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },

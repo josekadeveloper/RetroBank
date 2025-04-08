@@ -59,7 +59,7 @@ app.post("/api/login", async (req, res) => {
   }
 });
 
-app.get("/api/balance", async (req, res) => {
+app.post("/api/balance", async (req, res) => {
   const { username } = req.body;
 
   try {
@@ -68,6 +68,7 @@ app.get("/api/balance", async (req, res) => {
       [username]
     );
 
+    console.log("result", result.rows);
     if (result.rows.length > 0) {
       res.json({ balance: result.rows[0].balance });
     } else {
