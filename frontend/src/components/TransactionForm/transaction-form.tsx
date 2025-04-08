@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { getUsers, saveTransaction, updateBalance } from "../store/storage";
+
+import { getUsers, saveTransaction, updateBalance } from "../../store/storage";
 
 type Props = {
   readonly user: string;
