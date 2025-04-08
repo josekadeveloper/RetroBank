@@ -6,7 +6,7 @@ export const useUsers = () =>
     queryKey: ["users"],
     queryFn: async () => {
       const res = await fetch(
-        "https://retro-bank-backend.vercel.app/api/users"
+        "https://retrobank-backend.up.railway.app/api/users"
       );
       if (!res.ok) throw new Error("Failed to fetch users");
       return res.json();
