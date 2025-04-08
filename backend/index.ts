@@ -47,16 +47,16 @@ app.post("/api/register", async (req: any, res: any) => {
   }
 
   try {
-    // Verifica si el usuario ya existe
-    const userExists = await pool.query(
-      "SELECT * FROM users WHERE username = $1",
-      [username]
-    );
+    // // Verifica si el usuario ya existe
+    // const userExists = await pool.query(
+    //   "SELECT * FROM users WHERE username = $1",
+    //   [username]
+    // );
 
-    console.log("userExists", userExists);
-    if (userExists.rows.length > 0) {
-      return res.status(409).json({ message: "Username already exists" });
-    }
+    // console.log("userExists", userExists);
+    // if (userExists.rows.length > 0) {
+    //   return res.status(409).json({ message: "Username already exists" });
+    // }
 
     // Inserta el nuevo usuario en la base de datos
     await pool.query(
