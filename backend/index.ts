@@ -1,10 +1,11 @@
 import cors from "cors";
 import express from "express";
 import bodyParser from "body-parser";
-const { Pool } = require("pg");
+import pg from "pg";
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3030;
+const { Pool } = pg;
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
