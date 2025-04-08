@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import { getUserBalance } from "../../store/storage";
-import TransactionForm from "../../components/transaction-form";
+import TransactionForm from "../../components/TransactionForm/transaction-form";
 
 type Props = {
   readonly user: string;
