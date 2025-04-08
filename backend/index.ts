@@ -70,7 +70,7 @@ app.post("/api/balance", async (req, res) => {
 
     console.log("result", result.rows);
     if (result.rows.length > 0) {
-      res.json({ balance: result.rows[0].balance });
+      res.json({ balance: result });
     } else {
       res.status(401).json({ message: "Invalid credentials" });
     }
