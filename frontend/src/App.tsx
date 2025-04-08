@@ -15,7 +15,7 @@ function App() {
   if (!user) {
     return (
       <Routes>
-        <Route path="/login" element={<Login onLogin={setUser} />} />
+        <Route path="/" element={<Login onLogin={setUser} />} />
         <Route path="/register" element={<Register onRegister={setUser} />} />
       </Routes>
     );
