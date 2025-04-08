@@ -3,11 +3,11 @@ import { useNavigate } from "react-router-dom";
 
 import { registerUser } from "../../store/storage";
 
-type Props = {
-  readonly onRegister: (username: string) => void;
-};
+// type Props = {
+//   readonly onRegister: (username: string) => void;
+// };
 
-export default function Register({ onRegister }: Props) {
+export default function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [balance, setBalance] = useState("");
@@ -17,7 +17,7 @@ export default function Register({ onRegister }: Props) {
     e.preventDefault();
     if (await registerUser(username, password, parseInt(balance))) {
       alert("User registered!");
-      onRegister(username);
+      // onRegister(username);
       navigate("/");
     } else {
       alert("Username already exists.");

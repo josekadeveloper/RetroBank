@@ -1,33 +1,42 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { useValidateUser } from "../../hooks/use-validate-users";
+import UserValidator from "../../components/UserValidator/user-validator";
 
-type Props = Readonly<{
-  onLogin: (username: string) => void;
-}>;
+// type Props = Readonly<{
+//   onLogin: (username: string) => void;
+// }>;
 
-export default function Login({ onLogin }: Props) {
+export default function Login() {
+  console.log("Login component rendered");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [triggerValidation, setTriggerValidation] = useState(false);
   const navigate = useNavigate();
-  const validateUser = useValidateUser(username, password);
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleLogin = (e: React.FormEvent) => {
+    console.log("handleLogin", username, password);
     e.preventDefault();
     setIsSubmitting(true);
-    console.log("login");
-    const { data, error } = await validateUser.refetch();
-    console.log("data", data);
+    setTriggerValidation(true);
+  };
 
-    if (data?.token) {
-      onLogin(username);
-    } else {
-      alert(error?.message ?? "Invalid credentials");
-    }
+  const handleSuccess = () => {
+    console.log("handleSuccess", username, password);
+    // onLogin(username);
+    navigate("/dashboard");
+  };
 
+  const handleError = (error: string) => {
+    console.log("handleError", username, password, error);
+    alert(error);
+  };
+
+  const handleDone = () => {
+    console.log("handleDone", username, password);
     setIsSubmitting(false);
+    setTriggerValidation(false);
   };
 
   return (
@@ -57,13 +66,20 @@ export default function Login({ onLogin }: Props) {
       </form>
       <button
         type="button"
-        onClick={() => {
-          navigate("/register");
-        }}
+        onClick={() => navigate("/register")}
         disabled={isSubmitting}
       >
         Register
       </button>
+
+      <UserValidator
+        username={username}
+        password={password}
+        trigger={triggerValidation}
+        onSuccess={handleSuccess}
+        onError={handleError}
+        onDone={handleDone}
+      />
     </div>
   );
 }

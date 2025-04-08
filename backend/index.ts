@@ -30,13 +30,15 @@ app.get("/api/users", (req, res) => {
 
 app.post("/api/login", async (req, res) => {
   const { username, password } = req.body;
+  console.log("Login attempt:", username, password);
 
   try {
-    // Consulta SQL para verificar las credenciales
+    console.log("Before Query:");
     const result = await pool.query(
       "SELECT * FROM users WHERE username = $1 AND password = $2",
       [username, password]
     );
+    console.log("After Query:");
 
     if (result.rows.length > 0) {
       // Usuario encontrado

@@ -1,26 +1,21 @@
-import { QueryClient, QueryClientProvider } from "react-query";
-
 import { useGetUsers } from "../../hooks/use-get-users.hook";
 
 export default function UserList() {
-  const queryClient = new QueryClient();
   const { data: users, isLoading, error } = useGetUsers();
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error loading users</p>;
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <div className="terminal">
-        <h1>User List</h1>
-        <ul>
-          {users?.map((u) => (
-            <li>
-              {u.username} - {u.balance}
-            </li>
-          ))}
-        </ul>
-      </div>
-    </QueryClientProvider>
+    <div className="terminal">
+      <h1>User List</h1>
+      <ul>
+        {users?.map((u) => (
+          <li>
+            {u.username} - {u.balance}
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
