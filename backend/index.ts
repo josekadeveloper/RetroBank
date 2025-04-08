@@ -3,7 +3,7 @@ import express from "express";
 import bodyParser from "body-parser";
 
 const app = express();
-const PORT = 3030;
+const PORT = Number(process.env.PORT) || 3030;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
