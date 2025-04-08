@@ -53,6 +53,7 @@ app.post("/api/register", async (req: any, res: any) => {
       [username]
     );
 
+    console.log("userExists", userExists);
     if (userExists.rows.length > 0) {
       return res.status(409).json({ message: "Username already exists" });
     }
