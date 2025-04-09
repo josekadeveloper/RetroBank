@@ -159,12 +159,12 @@ app.post("/api/update-balance", async (req, res) => {
     }
 
     await pool.query("UPDATE users SET balance = $1 WHERE username = $2", [
-      remitterBalance - balance,
+      beneficiaryBalance - balance,
       beneficiary,
     ]);
 
     await pool.query("UPDATE users SET balance = $1 WHERE username = $2", [
-      beneficiaryBalance + balance,
+      remitterBalance + balance,
       remitter,
     ]);
 
