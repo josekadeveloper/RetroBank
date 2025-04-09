@@ -28,13 +28,24 @@ app.get("/", (req, res) => {
   res.status(200).send("Hello World!");
 });
 
-app.get("/api/users", (req, res) => {
-  const users = [
-    { id: 1, username: "user1", balance: 100 },
-    { id: 2, username: "user2", balance: 200 },
-    { id: 3, username: "user3", balance: 300 },
-  ];
-  res.json(users);
+app.get("/api/users", async (req, res) => {
+  try {
+    const usersList = await pool.query("SELECT * FROM users");
+
+    const userNames = [];
+
+    if (usersList.rows.length > 0) {
+      for (const row of usersList.rows) {
+        userNames.push(row.username);
+      }
+
+      res.status(200).json({ userNames: userNames });
+    } else {
+      res.status(401).json({ message: "User list is empty!!" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Users table on database is empty" });
+  }
 });
 
 app.post("/api/register", async (req: any, res: any) => {
@@ -101,15 +112,73 @@ app.post("/api/balance", async (req, res) => {
       [username]
     );
 
-    console.log("result", result.rows);
     if (result.rows.length > 0) {
       res.json({ balance: result.rows[0].balance.toString() });
     } else {
       res.status(401).json({ message: "Invalid credentials" });
     }
   } catch (error) {
-    console.error("Error querying the database:", error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ message: "The Balance or Username haven't exist" });
+  }
+});
+
+app.post("/api/update-balance", async (req, res) => {
+  const { remitter, beneficiary, balance } = req.body;
+
+  try {
+    // Verifica si el usuario existe
+    const isRemitterExist = await pool.query(
+      "SELECT balance FROM users WHERE username = $1",
+      [remitter]
+    );
+
+    const isBeneficiaryExist = await pool.query(
+      "SELECT balance FROM users WHERE username = $1",
+      [beneficiary]
+    );
+
+    if (
+      isRemitterExist.rows.length === 0 ||
+      isBeneficiaryExist.rows.length === 0
+    ) {
+      res.status(404).json({ message: "User not found" });
+      return;
+    }
+
+    const remitterResult = await pool.query(
+      "SELECT balance FROM users WHERE username = $1",
+      [remitter]
+    );
+
+    const beneficiaryResult = await pool.query(
+      "SELECT balance FROM users WHERE username = $1",
+      [beneficiary]
+    );
+
+    const remitterBalance = parseFloat(remitterResult.rows[0].balance);
+    const beneficiaryBalance = parseFloat(beneficiaryResult.rows[0].balance);
+
+    // Verifica si el remitente tiene suficiente balance
+    if (remitterBalance < balance) {
+      res.status(400).json({ message: "Insufficient balance" });
+      return;
+    }
+
+    // Actualiza el balance del usuario
+    await pool.query("UPDATE users SET balance = $1 WHERE username = $2", [
+      remitterBalance - balance,
+      beneficiary,
+    ]);
+
+    // Actualiza el balance del usuario
+    await pool.query("UPDATE users SET balance = $1 WHERE username = $2", [
+      beneficiaryBalance + balance,
+      remitter,
+    ]);
+
+    res.status(200).json({ message: "Balance updated successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Error updating user balance" });
   }
 });
 

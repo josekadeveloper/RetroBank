@@ -1,6 +1,7 @@
 // import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import TransactionForm from "../../components/TransactionForm/transaction-form";
+
+import TransactionForm from "../../components/TransactionForm/transaction-form";
 import { useGetBalance } from "../../hooks/use-get-balance.hook";
 
 export default function Home() {
@@ -19,7 +20,7 @@ export default function Home() {
     <div className="terminal">
       <h1>WELCOME, {actualUserName?.toUpperCase()}</h1>
       <p>Balance: ${data?.balance}</p>
-      {/* <TransactionForm user={user.username} /> */}
+      <TransactionForm />
       {/* <button onClick={() => navigate("/history")}>View History</button> */}
       <button onClick={onLogout}>Logout</button>
     </div>

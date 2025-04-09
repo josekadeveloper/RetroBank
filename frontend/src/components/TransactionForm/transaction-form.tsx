@@ -1,70 +1,98 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-import { getUsers, saveTransaction, updateBalance } from "../../store/storage";
+import { useGetUsers } from "../../hooks/use-get-users.hook";
+import BalanceValidator from "../BalanceValidator/balance-validator";
 
-type Props = {
-  readonly user: string;
-};
-
-export default function TransactionForm({ user }: Props) {
-  const [to, setTo] = useState("");
+export default function TransactionForm() {
+  const remitter = localStorage.getItem("username") ?? "";
+  const [beneficiary, setBeneficiary] = useState("");
   const [amount, setAmount] = useState("");
-  const [users, setUsers] = useState<{ username: string }[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [triggerValidation, setTriggerValidation] = useState(false);
 
-  useEffect(() => {
-    getUsers().then((fetchedUsers) => {
-      setUsers(fetchedUsers.filter((u) => u.username !== user));
-    });
-  }, [user]);
+  const { data: usersList } = useGetUsers();
+  console.log("usersList", usersList);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const amt = +amount;
-    if (!to || isNaN(amt) || amt <= 0) return;
+    if (!beneficiary || isNaN(amt) || amt <= 0) return;
 
-    const success = updateBalance(user, to, amt);
-    if (!success) {
-      alert("Insufficient balance or user not found");
-      return;
-    }
+    // const success = updateBalance(user, to, amt);
+    // if (!success) {
+    //   alert("Insufficient balance or user not found");
+    //   return;
+    // }
 
-    saveTransaction({
-      from: user,
-      to,
-      amount: amt,
-      date: new Date().toLocaleString(),
-    });
+    // saveTransaction({
+    //   from: user,
+    //   to,
+    //   amount: amt,
+    //   date: new Date().toLocaleString(),
+    // });
 
-    alert(`$${amt} sent to ${to}`);
+    alert(`$${amt} sent to ${beneficiary}`);
     setAmount("");
-    setTo("");
+    setBeneficiary("");
+  };
+
+  const handleSuccess = () => {
+    // navigate("/history:username");
+  };
+
+  const handleError = (error: string) => {
+    alert(error);
+  };
+
+  const handleDone = () => {
+    setIsSubmitting(false);
+    setTriggerValidation(false);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="transfer-to">Transfer to:</label>
-      <select
-        id="transfer-to"
-        value={to}
-        onChange={(e) => setTo(e.target.value)}
-      >
-        <option value="">-- Select user --</option>
-        {users.map((u) => (
-          <option key={u.username} value={u.username}>
-            {u.username}
-          </option>
-        ))}
-      </select>
+    <section>
+      <form>
+        <label htmlFor="transfer-to">Transfer to:</label>
+        <select
+          id="transfer-to"
+          value={beneficiary}
+          onChange={(e) => setBeneficiary(e.target.value)}
+          disabled={isSubmitting}
+        >
+          <option value="">-- Select user --</option>
+          {usersList?.map((u) => (
+            <option key={u.username} value={u.username}>
+              {u.username}
+            </option>
+          ))}
+        </select>
 
-      <label htmlFor="amount">Amount:</label>
-      <input
-        id="amount"
-        type="number"
-        value={amount}
-        onChange={(e) => setAmount(e.target.value)}
-      />
+        <label htmlFor="amount">Amount:</label>
+        <input
+          id="amount"
+          type="number"
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
+          disabled={isSubmitting}
+        />
 
-      <button type="submit">Send</button>
-    </form>
+        <button type="submit" onSubmit={handleSubmit} disabled={isSubmitting}>
+          Send
+        </button>
+      </form>
+
+      {triggerValidation && (
+        <BalanceValidator
+          remitter={remitter}
+          beneficiary={beneficiary}
+          balance={Number(amount)}
+          date={new Date().toLocaleString()}
+          trigger={triggerValidation}
+          onSuccess={handleSuccess}
+          onError={handleError}
+          onDone={handleDone}
+        />
+      )}
+    </section>
   );
 }
