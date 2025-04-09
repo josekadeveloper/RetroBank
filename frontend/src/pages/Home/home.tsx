@@ -6,7 +6,6 @@ import { useGetBalance } from "../../hooks/use-get-balance.hook";
 
 export default function Home() {
   const navigate = useNavigate();
-
   const storedUser = localStorage.getItem("username");
   const actualUserName = storedUser ? JSON.parse(storedUser).username : null;
   const { data } = useGetBalance(actualUserName);

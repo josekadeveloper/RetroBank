@@ -58,7 +58,6 @@ app.post("/api/register", async (req: any, res: any) => {
   }
 
   try {
-    // Verifica si el usuario ya existe
     const userExists = await pool.query(
       "SELECT * FROM users WHERE username = $1",
       [username]
@@ -68,7 +67,6 @@ app.post("/api/register", async (req: any, res: any) => {
       return res.status(409).json({ message: "Username already exists" });
     }
 
-    // Inserta el nuevo usuario en la base de datos
     await pool.query(
       "INSERT INTO users (username, password, balance) VALUES ($1, $2, $3)",
       [username, password, balance]
@@ -91,10 +89,8 @@ app.post("/api/login", async (req, res) => {
     );
 
     if (result.rows.length > 0) {
-      // Usuario encontrado
       res.json({ message: "Login successful", token: "dummy_token" });
     } else {
-      // Usuario no encontrado
       res.status(401).json({ message: "Invalid credentials" });
     }
   } catch (error) {
@@ -126,7 +122,6 @@ app.post("/api/update-balance", async (req, res) => {
   const { remitter, beneficiary, balance } = req.body;
 
   try {
-    // Verifica si el usuario existe
     const isRemitterExist = await pool.query(
       "SELECT balance FROM users WHERE username = $1",
       [remitter]
@@ -158,19 +153,16 @@ app.post("/api/update-balance", async (req, res) => {
     const remitterBalance = parseFloat(remitterResult.rows[0].balance);
     const beneficiaryBalance = parseFloat(beneficiaryResult.rows[0].balance);
 
-    // Verifica si el remitente tiene suficiente balance
     if (remitterBalance < balance) {
       res.status(400).json({ message: "Insufficient balance" });
       return;
     }
 
-    // Actualiza el balance del usuario
     await pool.query("UPDATE users SET balance = $1 WHERE username = $2", [
       remitterBalance - balance,
       beneficiary,
     ]);
 
-    // Actualiza el balance del usuario
     await pool.query("UPDATE users SET balance = $1 WHERE username = $2", [
       beneficiaryBalance + balance,
       remitter,

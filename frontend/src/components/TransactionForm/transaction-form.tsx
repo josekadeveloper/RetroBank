@@ -4,7 +4,8 @@ import { useGetUsers } from "../../hooks/use-get-users.hook";
 import BalanceValidator from "../BalanceValidator/balance-validator";
 
 export default function TransactionForm() {
-  const remitter = localStorage.getItem("username") ?? "";
+  const storedUser = localStorage.getItem("username");
+  const remitter = storedUser ? JSON.parse(storedUser).username : null;
   const [beneficiary, setBeneficiary] = useState("");
   const [amount, setAmount] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -14,12 +15,9 @@ export default function TransactionForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const amt = +amount;
-    if (!beneficiary || isNaN(amt) || amt <= 0) return;
 
-    alert(`$${amt} sent to ${beneficiary}`);
-    setAmount("");
-    setBeneficiary("");
+    alert(`$${amount} sent to ${beneficiary}`);
+    setTriggerValidation(true);
   };
 
   const handleSuccess = () => {
@@ -37,7 +35,7 @@ export default function TransactionForm() {
 
   return (
     <section>
-      <form>
+      <form onSubmit={handleSubmit}>
         <label htmlFor="transfer-to">Transfer to:</label>
         <select
           id="transfer-to"
@@ -60,7 +58,7 @@ export default function TransactionForm() {
           disabled={isSubmitting}
         />
 
-        <button type="submit" onSubmit={handleSubmit} disabled={isSubmitting}>
+        <button type="submit" disabled={isSubmitting}>
           Send
         </button>
       </form>
