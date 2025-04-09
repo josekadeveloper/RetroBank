@@ -13,7 +13,6 @@ export default function Login() {
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setTriggerValidation(true);
   };
 
   const handleSuccess = () => {
@@ -51,7 +50,11 @@ export default function Login() {
           disabled={isSubmitting}
         />
 
-        <button type="submit" disabled={isSubmitting}>
+        <button
+          type="submit"
+          onClick={() => setTriggerValidation(true)}
+          disabled={isSubmitting}
+        >
           {isSubmitting ? "Logging in..." : "Login"}
         </button>
       </form>
@@ -63,14 +66,16 @@ export default function Login() {
         Register
       </button>
 
-      <UserValidator
-        username={username}
-        password={password}
-        trigger={triggerValidation}
-        onSuccess={handleSuccess}
-        onError={handleError}
-        onDone={handleDone}
-      />
+      {triggerValidation && (
+        <UserValidator
+          username={username}
+          password={password}
+          trigger={triggerValidation}
+          onSuccess={handleSuccess}
+          onError={handleError}
+          onDone={handleDone}
+        />
+      )}
     </div>
   );
 }

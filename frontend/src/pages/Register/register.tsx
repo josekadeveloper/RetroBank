@@ -14,7 +14,6 @@ export default function Register() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setTriggerValidation(true);
   };
 
   const handleSuccess = () => {
@@ -60,20 +59,26 @@ export default function Register() {
           disabled={isSubmitting}
         />
 
-        <button type="submit" disabled={isSubmitting}>
+        <button
+          type="submit"
+          onClick={() => setTriggerValidation(true)}
+          disabled={isSubmitting}
+        >
           Create Account
         </button>
       </form>
 
-      <RegisterValidator
-        username={username}
-        password={password}
-        balance={parseInt(balance)}
-        trigger={triggerValidation}
-        onSuccess={handleSuccess}
-        onError={handleError}
-        onDone={handleDone}
-      />
+      {triggerValidation && (
+        <RegisterValidator
+          username={username}
+          password={password}
+          balance={parseInt(balance)}
+          trigger={triggerValidation}
+          onSuccess={handleSuccess}
+          onError={handleError}
+          onDone={handleDone}
+        />
+      )}
     </div>
   );
 }
