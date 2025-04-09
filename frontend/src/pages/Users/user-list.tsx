@@ -12,7 +12,7 @@ export default function UserList() {
       <ul>
         {users?.map((u) => (
           <li>
-            {u.username} - {u.balance.toString()}
+            {u.username} - {u.balance?.toString()}
           </li>
         ))}
       </ul>
