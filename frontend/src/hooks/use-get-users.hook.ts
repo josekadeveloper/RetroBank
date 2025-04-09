@@ -1,9 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { User } from "../models/model";
+
+import { UserList } from "../models/model";
 import { API_URL } from "../utils/constant";
 
 export const useGetUsers = () =>
-  useQuery<User[]>({
+  useQuery<UserList[]>({
     queryKey: ["userNamesList"],
     queryFn: async () => {
       const res = await fetch(`${API_URL}/api/users`);

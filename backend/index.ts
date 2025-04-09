@@ -39,7 +39,7 @@ app.get("/api/users", async (req, res) => {
         userNames.push(row.username);
       }
 
-      res.status(200).json({ userNames: userNames });
+      res.status(200).json(userNames);
     } else {
       res.status(401).json({ message: "User list is empty!!" });
     }

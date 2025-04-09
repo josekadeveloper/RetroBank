@@ -18,19 +18,6 @@ export default function TransactionForm() {
     const amt = +amount;
     if (!beneficiary || isNaN(amt) || amt <= 0) return;
 
-    // const success = updateBalance(user, to, amt);
-    // if (!success) {
-    //   alert("Insufficient balance or user not found");
-    //   return;
-    // }
-
-    // saveTransaction({
-    //   from: user,
-    //   to,
-    //   amount: amt,
-    //   date: new Date().toLocaleString(),
-    // });
-
     alert(`$${amt} sent to ${beneficiary}`);
     setAmount("");
     setBeneficiary("");
@@ -60,10 +47,8 @@ export default function TransactionForm() {
           disabled={isSubmitting}
         >
           <option value="">-- Select user --</option>
-          {usersList?.map((u) => (
-            <option key={u.username} value={u.username}>
-              {u.username}
-            </option>
+          {usersList?.map((user) => (
+            <option value={user.username}>{user.username}</option>
           ))}
         </select>
 

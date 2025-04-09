@@ -9,6 +9,10 @@ export type Balance = {
   balance: number;
 };
 
+export type UserList = {
+  username: string[];
+};
+
 export type User = {
   username: string;
   password: string;
