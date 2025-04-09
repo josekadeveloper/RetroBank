@@ -11,7 +11,6 @@ export default function TransactionForm() {
   const [triggerValidation, setTriggerValidation] = useState(false);
 
   const { data: usersList } = useGetUsers();
-  console.log("usersList", usersList);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,8 +46,8 @@ export default function TransactionForm() {
           disabled={isSubmitting}
         >
           <option value="">-- Select user --</option>
-          {usersList?.map((user) => (
-            <option value={user.username}>{user.username}</option>
+          {usersList?.map((name) => (
+            <option value={name}>{name}</option>
           ))}
         </select>
 

@@ -9,11 +9,7 @@ export type Balance = {
   balance: number;
 };
 
-export type UserList = {
-  username: string[] | string;
-  password?: string;
-  balance?: Balance;
-};
+export type UserList = string[];
 
 export type User = {
   username: string;
