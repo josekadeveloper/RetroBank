@@ -131,19 +131,24 @@ app.post(
       );
 
       if (result.rows.length === 0) {
-        res.status(404).json({ message: "User not found" });
+        return res.status(404).json({ message: "User not found" });
       }
 
       const user = result.rows[0];
+      console.log("User from DB:", user);
 
       const isPasswordValid = await argon2.verify(user.password, password);
 
       if (!isPasswordValid) {
-        res.status(401).json({ message: "Invalid credentials" });
+        return res.status(401).json({ message: "Invalid credentials" });
       }
+
+      return res
+        .status(200)
+        .json({ message: "Login successful", token: "dummy_token" });
     } catch (error) {
       console.error("Error querying the database:", error);
-      res.status(500).json({ message: "Internal server error" });
+      return res.status(500).json({ message: "Internal server error" });
     }
   }
 );
