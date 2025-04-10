@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Transaction } from "../../models/model";
 import { useGetTransactions } from "../../hooks/use-get-transactions.hook";
+import { formatCurrency, formatDate } from "../../utils/functions";
 
 export default function History() {
   const navigate = useNavigate();
@@ -25,8 +26,8 @@ export default function History() {
       <ul>
         {history.map((tx, idx) => (
           <li key={idx}>
-            [{tx.date}] {tx.beneficiary} → {tx.remitter}: $
-            {tx.amount.toFixed(2)}
+            [{formatDate(tx.date)}] {tx.beneficiary} → {tx.remitter}:{" "}
+            {formatCurrency(Number(tx.amount))}
           </li>
         ))}
       </ul>
