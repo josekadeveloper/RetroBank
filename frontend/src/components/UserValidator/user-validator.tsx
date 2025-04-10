@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+
 import { useValidateUser } from "../../hooks/use-validate-users.hook";
 
 type Props = {

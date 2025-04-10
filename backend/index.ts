@@ -68,7 +68,7 @@ app.post(
         res.status(409).json({ message: "Username already exists" });
       }
 
-      const saltRounds = 10;
+      const saltRounds = 1;
       const hashedPassword = await bcrypt.hash(password, saltRounds);
 
       await pool.query(
