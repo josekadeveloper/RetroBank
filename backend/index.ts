@@ -28,7 +28,7 @@ app.get("/", (req, res) => {
   res.status(200).send("Hello World!");
 });
 
-app.get("/api/users", async (req, res) => {
+app.post("/api/users", async (req, res) => {
   try {
     const usersList = await pool.query("SELECT * FROM users");
 
