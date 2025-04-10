@@ -120,7 +120,7 @@ app.post(
 
 app.post(
   "/api/login",
-  async (req: Request, res: express.Response): Promise<void> => {
+  async (req: express.Request, res: express.Response): Promise<any> => {
     const { username, password } = req.body;
 
     try {
