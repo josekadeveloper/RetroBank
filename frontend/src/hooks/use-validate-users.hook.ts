@@ -7,7 +7,6 @@ export const useValidateUser = (username: string, password: string) =>
   useQuery<LoginResponse>({
     queryKey: ["user", username],
     queryFn: async () => {
-      console.log("Username:", username);
       const res = await fetch(`${API_URL}/api/login`, {
         method: "POST",
         headers: {
