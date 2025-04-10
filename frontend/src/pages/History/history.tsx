@@ -22,7 +22,7 @@ export default function History() {
 
   return (
     <div className="terminal">
-      <h1>Transaction History</h1>
+      <h1>Transactions History</h1>
       <ul>
         {history.map((tx, idx) => (
           <li key={idx}>
