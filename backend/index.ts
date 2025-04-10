@@ -1,8 +1,9 @@
 import cors from "cors";
-import express from "express";
+import express, { Request } from "express";
 import bodyParser from "body-parser";
 import pg from "pg";
 import dotenv from "dotenv";
+import bcrypt from "bcrypt";
 
 dotenv.config();
 
@@ -67,9 +68,12 @@ app.post("/api/register", async (req: any, res: any) => {
       return res.status(409).json({ message: "Username already exists" });
     }
 
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
     await pool.query(
       "INSERT INTO users (username, password, balance) VALUES ($1, $2, $3)",
-      [username, password, balance]
+      [username, hashedPassword, balance]
     );
 
     res.status(201).json({ message: "User registered successfully" });
@@ -79,25 +83,36 @@ app.post("/api/register", async (req: any, res: any) => {
   }
 });
 
-app.post("/api/login", async (req, res) => {
-  const { username, password } = req.body;
+app.post(
+  "/api/login",
+  async (req: Request, res: express.Response): Promise<void> => {
+    const { username, password } = req.body;
 
-  try {
-    const result = await pool.query(
-      "SELECT * FROM users WHERE username = $1 AND password = $2",
-      [username, password]
-    );
+    try {
+      const result = await pool.query(
+        "SELECT * FROM users WHERE username = $1",
+        [username]
+      );
 
-    if (result.rows.length > 0) {
-      res.json({ message: "Login successful", token: "dummy_token" });
-    } else {
-      res.status(401).json({ message: "Invalid credentials" });
+      if (result.rows.length === 0) {
+        res.status(404).json({ message: "User not found" });
+        return;
+      }
+
+      const user = result.rows[0];
+
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+
+      if (!isPasswordValid) {
+        res.status(401).json({ message: "Invalid credentials" });
+        return;
+      }
+    } catch (error) {
+      console.error("Error querying the database:", error);
+      res.status(500).json({ message: "Internal server error" });
     }
-  } catch (error) {
-    console.error("Error querying the database:", error);
-    res.status(500).json({ message: "Internal server error" });
   }
-});
+);
 
 app.post("/api/balance", async (req, res) => {
   const { username } = req.body;
