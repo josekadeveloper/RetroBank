@@ -3,7 +3,7 @@ import express, { Request } from "express";
 import bodyParser from "body-parser";
 import pg from "pg";
 import dotenv from "dotenv";
-import bcrypt from "bcrypt";
+import argon2 from "argon2";
 
 dotenv.config();
 
@@ -68,8 +68,7 @@ app.post(
         res.status(409).json({ message: "Username already exists" });
       }
 
-      const saltRounds = 1;
-      const hashedPassword = await bcrypt.hash(password, saltRounds);
+      const hashedPassword = await argon2.hash(password);
 
       await pool.query(
         "INSERT INTO users (username, password, balance) VALUES ($1, $2, $3)",
@@ -101,7 +100,7 @@ app.post(
 
       const user = result.rows[0];
 
-      const isPasswordValid = await bcrypt.compare(password, user.password);
+      const isPasswordValid = await argon2.verify(user.password, password);
 
       if (!isPasswordValid) {
         res.status(401).json({ message: "Invalid credentials" });
