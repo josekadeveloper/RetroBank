@@ -1,6 +1,6 @@
 export type Transaction = {
-  to: string;
-  from: string;
+  remitter: string;
+  beneficiary: string;
   amount: number;
   date: string;
 };

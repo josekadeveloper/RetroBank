@@ -172,9 +172,33 @@ app.post("/api/update-balance", async (req, res) => {
       beneficiary,
     ]);
 
+    await pool.query(
+      "INSERT INTO transactions (remitter, beneficiary, amount, date) VALUES ($1, $2, $3, $4)",
+      [remitter, beneficiary, balance, new Date()]
+    );
+
     res.status(200).json({ message: "Balance updated successfully" });
   } catch (error) {
     res.status(500).json({ message: "Error updating user balance" });
+  }
+});
+
+app.post("/api/transactions-history", async (req, res) => {
+  const { username } = req.body;
+
+  try {
+    const result = await pool.query(
+      "SELECT * FROM transactions WHERE remitter = $1 OR beneficiary = $1",
+      [username]
+    );
+
+    if (result.rows.length > 0) {
+      res.status(200).json(result.rows);
+    } else {
+      res.status(404).json({ message: "No transactions found" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching transaction history" });
   }
 });
 
