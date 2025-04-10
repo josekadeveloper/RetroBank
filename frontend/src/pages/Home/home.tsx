@@ -1,4 +1,4 @@
-// import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import TransactionForm from "../../components/TransactionForm/transaction-form";
@@ -9,6 +9,13 @@ export default function Home() {
   const storedUser = localStorage.getItem("username");
   const actualUserName = storedUser ? JSON.parse(storedUser).username : null;
   const { data } = useGetBalance(actualUserName);
+  const [balance, setBalance] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (data?.balance !== undefined) {
+      setBalance(data.balance);
+    }
+  }, [data?.balance]);
 
   const onLogout = () => {
     localStorage.removeItem("username");
@@ -18,7 +25,7 @@ export default function Home() {
   return (
     <div className="terminal">
       <h1>WELCOME, {actualUserName?.toUpperCase()}</h1>
-      <p>Balance: ${data?.balance}</p>
+      <p>Balance: ${balance ?? "Loading..."}</p>
       <TransactionForm />
       {/* <button onClick={() => navigate("/history")}>View History</button> */}
       <button onClick={onLogout}>Logout</button>
