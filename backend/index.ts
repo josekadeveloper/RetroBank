@@ -49,39 +49,40 @@ app.post("/api/users", async (req, res) => {
   }
 });
 
-app.post("/api/register", async (req: any, res: any) => {
-  const { username, password, balance } = req.body;
+app.post(
+  "/api/register",
+  async (req: Request, res: express.Response): Promise<void> => {
+    const { username, password, balance } = req.body;
 
-  if (!username || !password || !balance) {
-    return res
-      .status(400)
-      .json({ message: "Username and password are required" });
-  }
-
-  try {
-    const userExists = await pool.query(
-      "SELECT * FROM users WHERE username = $1",
-      [username]
-    );
-
-    if (userExists.rows.length > 0) {
-      return res.status(409).json({ message: "Username already exists" });
+    if (!username || !password || !balance) {
+      res.status(400).json({ message: "Username and password are required" });
     }
 
-    const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    try {
+      const userExists = await pool.query(
+        "SELECT * FROM users WHERE username = $1",
+        [username]
+      );
 
-    await pool.query(
-      "INSERT INTO users (username, password, balance) VALUES ($1, $2, $3)",
-      [username, hashedPassword, balance]
-    );
+      if (userExists.rows.length > 0) {
+        res.status(409).json({ message: "Username already exists" });
+      }
 
-    res.status(201).json({ message: "User registered successfully" });
-  } catch (error) {
-    console.error("Error registering user:", error);
-    res.status(500).json({ message: "Internal server error" });
+      const saltRounds = 10;
+      const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+      await pool.query(
+        "INSERT INTO users (username, password, balance) VALUES ($1, $2, $3)",
+        [username, hashedPassword, balance]
+      );
+
+      res.status(201).json({ message: "User registered successfully" });
+    } catch (error) {
+      console.error("Error registering user:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
   }
-});
+);
 
 app.post(
   "/api/login",
@@ -96,7 +97,6 @@ app.post(
 
       if (result.rows.length === 0) {
         res.status(404).json({ message: "User not found" });
-        return;
       }
 
       const user = result.rows[0];
@@ -105,7 +105,6 @@ app.post(
 
       if (!isPasswordValid) {
         res.status(401).json({ message: "Invalid credentials" });
-        return;
       }
     } catch (error) {
       console.error("Error querying the database:", error);
@@ -152,7 +151,6 @@ app.post("/api/update-balance", async (req, res) => {
       isBeneficiaryExist.rows.length === 0
     ) {
       res.status(404).json({ message: "User not found" });
-      return;
     }
 
     const remitterResult = await pool.query(
@@ -170,7 +168,6 @@ app.post("/api/update-balance", async (req, res) => {
 
     if (remitterBalance < balance) {
       res.status(400).json({ message: "Insufficient balance" });
-      return;
     }
 
     await pool.query("UPDATE users SET balance = $1 WHERE username = $2", [
