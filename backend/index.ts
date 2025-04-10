@@ -51,7 +51,7 @@ app.post("/api/users", async (req, res) => {
 
 app.post(
   "/api/register",
-  async (req: Request, res: express.Response): Promise<void> => {
+  async (req: Request, res: express.Response): Promise<any> => {
     const { username, password, balance } = req.body;
 
     if (!username || !password || !balance) {
