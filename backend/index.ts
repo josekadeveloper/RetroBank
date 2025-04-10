@@ -4,7 +4,6 @@ import bodyParser from "body-parser";
 import pg from "pg";
 import dotenv from "dotenv";
 import argon2 from "argon2";
-import jwt from "jsonwebtoken";
 
 dotenv.config();
 
@@ -58,28 +57,6 @@ const resetTables = async () => {
 };
 
 // resetTables();
-
-const authenticateToken = (
-  req: express.Request,
-  res: express.Response,
-  next: express.NextFunction
-): void => {
-  const authHeader = req.headers.authorization;
-
-  if (!authHeader) {
-    res.status(401).json({ message: "Authorization header missing" });
-    return;
-  }
-
-  const token = authHeader.split(" ")[1];
-
-  try {
-    jwt.verify(token, process.env.JWT_SECRET ?? "");
-    next();
-  } catch (error) {
-    res.status(403).json({ message: "Invalid or expired token" });
-  }
-};
 
 app.post("/api/users", async (req, res) => {
   const { username } = req.body;
@@ -161,15 +138,9 @@ app.post(
         return res.status(401).json({ message: "Invalid credentials" });
       }
 
-      const token = jwt.sign(
-        { username: user.username },
-        process.env.JWT_SECRET ?? "",
-        { expiresIn: "3m" }
-      );
-
       return res
         .status(200)
-        .json({ message: "Login successful", token: token });
+        .json({ message: "Login successful", token: process.env.JWT_SECRET });
     } catch (error) {
       return res.status(500).json({ message: "Internal server error" });
     }
@@ -195,7 +166,7 @@ app.post("/api/balance", async (req, res) => {
   }
 });
 
-app.post("/api/update-balance", authenticateToken, async (req, res) => {
+app.post("/api/update-balance", async (req, res) => {
   const { remitter, beneficiary, balance } = req.body;
 
   try {
@@ -254,7 +225,7 @@ app.post("/api/update-balance", authenticateToken, async (req, res) => {
   }
 });
 
-app.post("/api/transactions-history", authenticateToken, async (req, res) => {
+app.post("/api/transactions-history", async (req, res) => {
   const { username } = req.body;
 
   try {
