@@ -58,7 +58,7 @@ const resetTables = async () => {
   }
 };
 
-resetTables();
+// resetTables();
 
 app.post("/api/users", async (req, res) => {
   const { username } = req.body;
