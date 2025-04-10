@@ -27,7 +27,9 @@ export default function Home() {
       <h1>WELCOME, {actualUserName?.toUpperCase()}</h1>
       <p>Balance: ${balance ?? "Loading..."}</p>
       <TransactionForm />
-      {/* <button onClick={() => navigate("/history")}>View History</button> */}
+      <button onClick={() => navigate(`/history/${actualUserName}`)}>
+        View History
+      </button>
       <button onClick={onLogout}>Logout</button>
     </div>
   );

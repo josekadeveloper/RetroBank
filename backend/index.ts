@@ -24,10 +24,6 @@ app.use(
   })
 );
 
-app.get("/", (req, res) => {
-  res.status(200).send("Hello World!");
-});
-
 app.post("/api/users", async (req, res) => {
   const { username } = req.body;
 

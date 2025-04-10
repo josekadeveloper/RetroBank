@@ -17,6 +17,7 @@ export default function Register() {
   };
 
   const handleSuccess = () => {
+    localStorage.setItem("username", JSON.stringify({ username }));
     navigate("/home");
   };
 
