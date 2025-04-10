@@ -29,6 +29,9 @@ export default function Login() {
     setTriggerValidation(false);
   };
 
+  console.log("Login component rendered");
+  console.log("Username:", username);
+
   return (
     <div className="terminal">
       <h1>RETRO BANK</h1>

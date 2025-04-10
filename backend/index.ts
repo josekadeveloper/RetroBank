@@ -122,6 +122,7 @@ app.post(
   "/api/login",
   async (req: express.Request, res: express.Response): Promise<any> => {
     const { username, password } = req.body;
+    console.log("Username:", username);
 
     try {
       const result = await pool.query(
