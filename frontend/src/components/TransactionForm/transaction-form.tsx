@@ -11,7 +11,7 @@ export default function TransactionForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [triggerValidation, setTriggerValidation] = useState(false);
 
-  const { data: usersList } = useGetUsers();
+  const { data: usersList } = useGetUsers(remitter);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

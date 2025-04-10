@@ -29,6 +29,8 @@ app.get("/", (req, res) => {
 });
 
 app.get("/api/users", async (req, res) => {
+  const { username } = req.body;
+
   try {
     const usersList = await pool.query("SELECT * FROM users");
 
@@ -36,7 +38,9 @@ app.get("/api/users", async (req, res) => {
 
     if (usersList.rows.length > 0) {
       for (const row of usersList.rows) {
-        userNames.push(row.username);
+        if (row.username === username) {
+          userNames.push(row.username);
+        }
       }
 
       res.status(200).json(userNames);
