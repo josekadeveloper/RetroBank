@@ -135,15 +135,14 @@ app.post(
       const isPasswordValid = await argon2.verify(user.password, password);
 
       if (!isPasswordValid) {
-        return res.status(401).json({ message: "Invalid credentials" });
+        res.status(401).json({ message: "Invalid credentials" });
+        return;
       }
 
-      return res
-        .status(200)
-        .json({
-          message: "Login successful",
-          token: "ogBJQmJuEqJelWILxKwIhBNJQppOmOBG",
-        });
+      return res.status(200).json({
+        message: "Login successful",
+        token: "ogBJQmJuEqJelWILxKwIhBNJQppOmOBG",
+      });
     } catch (error) {
       return res.status(500).json({ message: "Internal server error" });
     }
