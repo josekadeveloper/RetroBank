@@ -101,13 +101,7 @@ app.post(
 
       const user = result.rows[0];
 
-      const saltRounds = 10;
-      const hashedPassword = await bcrypt.hash(password, saltRounds);
-
-      const isPasswordValid = await bcrypt.compare(
-        hashedPassword,
-        user.password
-      );
+      const isPasswordValid = await bcrypt.compare(password, user.password);
 
       if (!isPasswordValid) {
         res.status(401).json({ message: "Invalid credentials" });
