@@ -1,21 +1,23 @@
 import { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
-import { getHistory } from "../../store/storage";
 import { Transaction } from "../../models/model";
+import { useGetTransactions } from "../../hooks/use-get-transactions.hook";
 
 export default function History() {
   const navigate = useNavigate();
-
+  const storedUser = localStorage.getItem("username");
+  const remitter = storedUser ? JSON.parse(storedUser).username : null;
+  const { data } = useGetTransactions(remitter);
   const [history, setHistory] = useState<Transaction[]>([]);
 
   useEffect(() => {
-    async function fetchHistory() {
-      const data = await getHistory();
-      setHistory(data);
-    }
-    fetchHistory();
-  }, []);
+    const transactions = [] as Transaction[];
+    data?.map((transaction) => {
+      transactions.push(transaction);
+    });
+    setHistory(transactions);
+  }, [data]);
 
   return (
     <div className="terminal">
@@ -23,7 +25,8 @@ export default function History() {
       <ul>
         {history.map((tx, idx) => (
           <li key={idx}>
-            [{tx.date}] {tx.from} → {tx.to}: ${tx.amount.toFixed(2)}
+            [{tx.date}] {tx.beneficiary} → {tx.remitter}: $
+            {tx.amount.toFixed(2)}
           </li>
         ))}
       </ul>

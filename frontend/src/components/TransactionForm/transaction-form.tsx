@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { useGetUsers } from "../../hooks/use-get-users.hook";
 import BalanceValidator from "../BalanceValidator/balance-validator";
@@ -10,6 +11,7 @@ export default function TransactionForm() {
   const [amount, setAmount] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [triggerValidation, setTriggerValidation] = useState(false);
+  const navigate = useNavigate();
 
   const { data: usersList } = useGetUsers(remitter);
 
@@ -21,7 +23,7 @@ export default function TransactionForm() {
   };
 
   const handleSuccess = () => {
-    // navigate("/history:username");
+    navigate(`/history/${remitter}`);
   };
 
   const handleError = (error: string) => {
