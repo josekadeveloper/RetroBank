@@ -38,7 +38,7 @@ app.post("/api/users", async (req, res) => {
 
     if (usersList.rows.length > 0) {
       for (const row of usersList.rows) {
-        if (row.username === username) {
+        if (row.username !== username) {
           userNames.push(row.username);
         }
       }
