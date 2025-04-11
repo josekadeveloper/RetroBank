@@ -26,7 +26,7 @@ export default function History() {
       <ul>
         {history.map((tx, idx) => (
           <li key={idx}>
-            [{formatDate(tx.date)}] {tx.beneficiary} → {tx.remitter}:{" "}
+            [{formatDate(tx.date)}] {tx.remitter} → {tx.beneficiary}:{" "}
             {formatCurrency(Number(tx.amount))}
           </li>
         ))}

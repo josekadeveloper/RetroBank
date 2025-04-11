@@ -1,13 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import UserValidator from "../../components/UserValidator/user-validator";
+import {
+  Notification,
+  toastNotification,
+} from "../../components/ToastNotification/toast-notification";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [triggerValidation, setTriggerValidation] = useState(false);
+  const [hasShownError, setHasShownError] = useState(false);
+  const [error, setError] = useState("");
+  const [token, setToken] = useState("");
   const navigate = useNavigate();
 
   const handleLogin = (e: React.FormEvent) => {
@@ -15,13 +22,24 @@ export default function Login() {
     setIsSubmitting(true);
   };
 
-  const handleSuccess = () => {
-    localStorage.setItem("username", JSON.stringify({ username }));
-    navigate("/home");
+  const handleError = (error: string) => {
+    setError(error);
+    setHasShownError(false);
   };
 
-  const handleError = (error: string) => {
-    alert(error);
+  useEffect(() => {
+    if (error !== "" && !hasShownError) {
+      toastNotification(Notification.ERROR, error);
+      setHasShownError(true);
+    } else if (token !== "") {
+      toastNotification(Notification.SUCCESS, "Login successful");
+    }
+  }, [error, hasShownError, token]);
+
+  const handleSuccess = (token: string) => {
+    setToken(token);
+    localStorage.setItem("username", JSON.stringify({ username }));
+    navigate("/home");
   };
 
   const handleDone = () => {

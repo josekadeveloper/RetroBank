@@ -28,7 +28,8 @@ export default function RegisterValidator({
     (async () => {
       const { data, error } = await refetch();
       if (data) {
-        onSuccess(data.balance);
+        const exit = 1;
+        onSuccess(exit);
       } else {
         onError(error?.message ?? "Invalid credentials");
       }

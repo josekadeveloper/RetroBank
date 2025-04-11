@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useGetUsers } from "../../hooks/use-get-users.hook";
 import BalanceValidator from "../BalanceValidator/balance-validator";
+import {
+  Notification,
+  toastNotification,
+} from "../ToastNotification/toast-notification";
 
 export default function TransactionForm() {
   const storedUser = localStorage.getItem("username");
@@ -11,6 +15,8 @@ export default function TransactionForm() {
   const [amount, setAmount] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [triggerValidation, setTriggerValidation] = useState(false);
+  const [hasShownError, setHasShownError] = useState(false);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const { data: usersList } = useGetUsers(remitter);
@@ -18,7 +24,10 @@ export default function TransactionForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    alert(`$${amount} sent to ${beneficiary}`);
+    toastNotification(
+      Notification.SUCCESS,
+      `$${amount} sent to ${beneficiary}`
+    );
     setTriggerValidation(true);
   };
 
@@ -27,8 +36,16 @@ export default function TransactionForm() {
   };
 
   const handleError = (error: string) => {
+    setError(error);
     alert(error);
   };
+
+  useEffect(() => {
+    if (error !== "" && !hasShownError) {
+      toastNotification(Notification.ERROR, error);
+      setHasShownError(true);
+    }
+  }, [error, hasShownError]);
 
   const handleDone = () => {
     setIsSubmitting(false);

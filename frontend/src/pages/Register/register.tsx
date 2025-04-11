@@ -1,7 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import RegisterValidator from "../../components/RegisterValidator/register-validator";
+import {
+  Notification,
+  toastNotification,
+} from "../../components/ToastNotification/toast-notification";
 
 export default function Register() {
   const [username, setUsername] = useState("");
@@ -9,6 +13,9 @@ export default function Register() {
   const [balance, setBalance] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [triggerValidation, setTriggerValidation] = useState(false);
+  const [hasShownError, setHasShownError] = useState(false);
+  const [error, setError] = useState("");
+  const [exitStatus, setExitStatus] = useState(0);
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -16,14 +23,24 @@ export default function Register() {
     setIsSubmitting(true);
   };
 
-  const handleSuccess = () => {
+  const handleSuccess = (exit: number) => {
+    setExitStatus(exit);
     localStorage.setItem("username", JSON.stringify({ username }));
     navigate("/home");
   };
 
   const handleError = (error: string) => {
-    alert(error);
+    setError(error);
   };
+
+  useEffect(() => {
+    if (error !== "" && !hasShownError) {
+      toastNotification(Notification.ERROR, error);
+      setHasShownError(true);
+    } else if (exitStatus === 1) {
+      toastNotification(Notification.SUCCESS, "Register successful");
+    }
+  }, [error, hasShownError, exitStatus]);
 
   const handleDone = () => {
     setIsSubmitting(false);
