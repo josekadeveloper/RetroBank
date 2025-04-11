@@ -19,8 +19,12 @@ export const useUpdateBalance = (
         },
         body: JSON.stringify({ remitter, beneficiary, balance }),
       });
-      if (!res.ok) throw new Error("Invalid credentials");
-      return res.json();
+      if (!res.ok) {
+        const errorDetails = await res.json();
+        throw new Error(`Error: ${errorDetails.message}!!`);
+      } else {
+        return res.json();
+      }
     },
     enabled: !!remitter && !!beneficiary && !!balance && !!date,
   });

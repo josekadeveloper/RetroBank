@@ -14,8 +14,13 @@ export const useValidateUser = (username: string, password: string) =>
         },
         body: JSON.stringify({ username, password }),
       });
-      if (!res.ok) throw new Error("Invalid credentials");
-      return res.json();
+      if (!res.ok) {
+        const errorDetails = await res.json();
+        throw new Error(`Error: ${errorDetails.message}!!`);
+      } else {
+        return res.json();
+      }
     },
     enabled: !!username && !!password,
+    retry: false,
   });

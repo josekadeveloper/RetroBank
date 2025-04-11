@@ -14,8 +14,12 @@ export const useGetBalance = (username: string) =>
         },
         body: JSON.stringify({ username }),
       });
-      if (!res.ok) throw new Error("Invalid credentials");
-      return res.json();
+      if (!res.ok) {
+        const errorDetails = await res.json();
+        throw new Error(`Error: ${errorDetails.message}!!`);
+      } else {
+        return res.json();
+      }
     },
     enabled: !!username,
   });
