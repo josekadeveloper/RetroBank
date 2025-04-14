@@ -127,7 +127,7 @@ app.post(
       );
 
       if (result.rows.length === 0) {
-        res.status(404).json({ message: "User not found" });
+        return res.status(404).json({ message: "User not found" });
       }
 
       const user = result.rows[0];
@@ -140,16 +140,16 @@ app.post(
       console.log("isPasswordValid: ", isPasswordValid);
 
       if (!isPasswordValid) {
-        res.status(401).json({ message: "Invalid credentials" });
+        return res.status(401).json({ message: "Invalid credentials" });
       }
 
-      res.status(200).json({
+      return res.status(200).json({
         message: "Login successful",
         token: "ogBJQmJuEqJelWILxKwIhBNJQppOmOBG",
       });
     } catch (error) {
       console.error("Error during login:", error);
-      res.status(500).json({ message: "Internal server error" });
+      return res.status(500).json({ message: "Internal server error" });
     }
   }
 );
