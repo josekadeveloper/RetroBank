@@ -134,7 +134,7 @@ app.post(
         return res.status(404).json({ message: "User not found" });
       } else if (!isPasswordValid) {
         return res.status(401).json({ message: "Invalid credentials" });
-      } else {
+      } else if (result.rows.length !== 0 && isPasswordValid) {
         return res.status(200).json({
           message: "Login successful",
           token: "ogBJQmJuEqJelWILxKwIhBNJQppOmOBG",
