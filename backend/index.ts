@@ -126,22 +126,30 @@ app.post(
         [username]
       );
 
+      if (result.rows.length === 0) {
+        res.status(404).json({ message: "User not found" });
+      }
+
       const user = result.rows[0];
+
+      console.log("user.password: ", user.password);
+      console.log("password: ", password);
 
       const isPasswordValid = await argon2.verify(user.password, password);
 
-      if (result.rows.length === 0) {
-        return res.status(404).json({ message: "User not found" });
-      } else if (!isPasswordValid) {
-        return res.status(401).json({ message: "Invalid credentials" });
-      } else if (result.rows.length !== 0 && isPasswordValid) {
-        return res.status(200).json({
-          message: "Login successful",
-          token: "ogBJQmJuEqJelWILxKwIhBNJQppOmOBG",
-        });
+      console.log("isPasswordValid: ", isPasswordValid);
+
+      if (!isPasswordValid) {
+        res.status(401).json({ message: "Invalid credentials" });
       }
+
+      res.status(200).json({
+        message: "Login successful",
+        token: "ogBJQmJuEqJelWILxKwIhBNJQppOmOBG",
+      });
     } catch (error) {
-      return res.status(500).json({ message: "Internal server error" });
+      console.error("Error during login:", error);
+      res.status(500).json({ message: "Internal server error" });
     }
   }
 );
