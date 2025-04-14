@@ -10,12 +10,19 @@ import {
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const storedToken = localStorage.getItem("token");
+  const token = storedToken ? JSON.parse(storedToken).username : null;
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [triggerValidation, setTriggerValidation] = useState(false);
   const [hasShownError, setHasShownError] = useState(false);
   const [error, setError] = useState("");
-  const [token, setToken] = useState("");
   const navigate = useNavigate();
+
+  console.log("token ---> ", token);
+  console.log("error ---> ", error);
+  console.log("username: ", username);
+  console.log("password: ", password);
+  console.log("hasShownError ---> ", hasShownError);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,16 +35,16 @@ export default function Login() {
   };
 
   useEffect(() => {
-    if (error !== "" && !hasShownError) {
+    if (token === null && error !== "" && !hasShownError) {
       toastNotification(Notification.ERROR, error);
       setHasShownError(true);
-    } else if (token !== "") {
+    } else if (token !== null) {
       toastNotification(Notification.SUCCESS, "Login successful");
     }
   }, [error, hasShownError, token]);
 
   const handleSuccess = (token: string) => {
-    setToken(token);
+    localStorage.setItem("token", JSON.stringify({ token }));
     localStorage.setItem("username", JSON.stringify({ username }));
     navigate("/home");
   };

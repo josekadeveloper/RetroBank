@@ -15,7 +15,9 @@ export const useValidateUser = (username: string, password: string) =>
         body: JSON.stringify({ username, password }),
       });
       if (!res.ok) {
+        console.log("user validate");
         const errorDetails = await res.json();
+        console.log("errorDetails ---> ", errorDetails.message);
         throw new Error(`Error: ${errorDetails.message}!!`);
       } else {
         return res.json();

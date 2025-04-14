@@ -18,6 +18,7 @@ export default function Home() {
   }, [data?.balance]);
 
   const onLogout = () => {
+    localStorage.removeItem("token");
     localStorage.removeItem("username");
     navigate("/");
   };
