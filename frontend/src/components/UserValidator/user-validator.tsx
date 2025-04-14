@@ -26,6 +26,7 @@ export default function UserValidator({
 
     (async () => {
       const { data, error } = await refetch();
+      console.log(data?.token);
       if (data?.token) {
         onSuccess(data.token);
       } else {
