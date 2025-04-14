@@ -25,15 +25,23 @@ export default function UserValidator({
     if (!trigger) return;
 
     (async () => {
-      const { data, error } = await refetch();
-      console.log(data?.token);
-      console.log(data);
-      if (data?.token) {
-        onSuccess(data.token);
-      } else {
-        onError(error?.message ?? "Invalid credentials");
+      try {
+        const { data, error } = await refetch();
+
+        if (data?.token) {
+          onSuccess(data.token);
+        } else if (error) {
+          onError(error.message);
+        }
+      } catch (error) {
+        onError(
+          error instanceof Error
+            ? error.message
+            : "An unexpected error occurred"
+        );
+      } finally {
+        onDone();
       }
-      onDone();
     })();
   }, [onDone, onError, onSuccess, refetch, trigger]);
 

@@ -18,12 +18,6 @@ export default function Login() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  console.log("token ---> ", token);
-  console.log("error ---> ", error);
-  console.log("username: ", username);
-  console.log("password: ", password);
-  console.log("hasShownError ---> ", hasShownError);
-
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
