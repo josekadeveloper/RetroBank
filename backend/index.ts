@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 import pg from "pg";
 import dotenv from "dotenv";
 import argon2 from "argon2";
+import jwt from "jsonwebtoken";
 
 dotenv.config();
 
@@ -127,29 +128,29 @@ app.post(
       );
 
       if (result.rows.length === 0) {
-        return res.status(404).json({ message: "User not found" });
+        res.status(404).json({ message: "User not found" });
       }
 
       const user = result.rows[0];
 
-      console.log("user.password: ", user.password);
-      console.log("password: ", password);
-
       const isPasswordValid = await argon2.verify(user.password, password);
 
-      console.log("isPasswordValid: ", isPasswordValid);
-
       if (!isPasswordValid) {
-        return res.status(401).json({ message: "Invalid credentials" });
+        res.status(401).json({ message: "Invalid credentials" });
       }
 
-      return res.status(200).json({
+      const token = jwt.sign(
+        { username: user.username },
+        process.env.JWT_SECRET ?? "default_secret_key",
+        { expiresIn: "3m" }
+      );
+
+      res.status(200).json({
         message: "Login successful",
-        token: "ogBJQmJuEqJelWILxKwIhBNJQppOmOBG",
+        token: token,
       });
     } catch (error) {
-      console.error("Error during login:", error);
-      return res.status(500).json({ message: "Internal server error" });
+      res.status(500).json({ message: "Internal server error" });
     }
   }
 );

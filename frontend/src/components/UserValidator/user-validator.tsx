@@ -28,10 +28,10 @@ export default function UserValidator({
       try {
         const { data, error } = await refetch();
 
-        if (data?.token) {
-          onSuccess(data.token);
-        } else if (error) {
+        if (error) {
           onError(error.message);
+        } else if (data?.token) {
+          onSuccess(data?.token);
         }
       } catch (error) {
         onError(
