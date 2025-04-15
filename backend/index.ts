@@ -59,7 +59,32 @@ const resetTables = async () => {
 
 // resetTables();
 
-app.post("/api/users", async (req, res) => {
+const authenticateToken = (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
+): void => {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader) {
+    res.status(401).json({ message: "Authorization header missing" });
+  }
+
+  const token = authHeader?.split(" ")[1];
+
+  try {
+    const decoded = jwt.verify(
+      token as string,
+      process.env.JWT_SECRET ?? "default_secret_key"
+    );
+    req.user = decoded;
+    next();
+  } catch (error) {
+    res.status(403).json({ message: "Invalid or expired token" });
+  }
+};
+
+app.post("/api/users", authenticateToken, async (req, res) => {
   const { username } = req.body;
 
   try {
@@ -137,25 +162,25 @@ app.post(
 
       if (!isPasswordValid) {
         res.status(401).json({ message: "Invalid credentials" });
+      } else {
+        const token = jwt.sign(
+          { username: user.username },
+          process.env.JWT_SECRET ?? "default_secret_key",
+          { expiresIn: "3m" }
+        );
+
+        res.status(200).json({
+          message: "Login successful",
+          token: token,
+        });
       }
-
-      const token = jwt.sign(
-        { username: user.username },
-        process.env.JWT_SECRET ?? "default_secret_key",
-        { expiresIn: "3m" }
-      );
-
-      res.status(200).json({
-        message: "Login successful",
-        token: token,
-      });
     } catch (error) {
       res.status(500).json({ message: "Internal server error" });
     }
   }
 );
 
-app.post("/api/balance", async (req, res) => {
+app.post("/api/balance", authenticateToken, async (req, res) => {
   const { username } = req.body;
 
   try {
@@ -174,7 +199,7 @@ app.post("/api/balance", async (req, res) => {
   }
 });
 
-app.post("/api/update-balance", async (req, res) => {
+app.post("/api/update-balance", authenticateToken, async (req, res) => {
   const { remitter, beneficiary, balance } = req.body;
 
   try {
@@ -233,7 +258,7 @@ app.post("/api/update-balance", async (req, res) => {
   }
 });
 
-app.post("/api/transactions-history", async (req, res) => {
+app.post("/api/transactions-history", authenticateToken, async (req, res) => {
   const { username } = req.body;
 
   try {
