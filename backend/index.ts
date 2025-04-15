@@ -164,18 +164,16 @@ app.post(
         return res.status(401).json({ message: "Invalid credentials" });
       }
 
-      if (isPasswordValid) {
-        const token = jwt.sign(
-          { username: user.username },
-          process.env.JWT_SECRET ?? "default_secret_key",
-          { expiresIn: "3m" }
-        );
+      const token = jwt.sign(
+        { username: user.username },
+        process.env.JWT_SECRET ?? "default_secret_key",
+        { expiresIn: "3m" }
+      );
 
-        return res.status(200).json({
-          message: "Login successful",
-          token: token,
-        });
-      }
+      return res.status(200).json({
+        message: "Login successful",
+        token: token,
+      });
     } catch (error) {
       res.status(500).json({ message: "Internal server error" });
     }
