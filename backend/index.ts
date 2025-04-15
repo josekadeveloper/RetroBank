@@ -162,7 +162,9 @@ app.post(
 
       if (!isPasswordValid) {
         return res.status(401).json({ message: "Invalid credentials" });
-      } else {
+      }
+
+      if (isPasswordValid) {
         const token = jwt.sign(
           { username: user.username },
           process.env.JWT_SECRET ?? "default_secret_key",
