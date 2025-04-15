@@ -4,7 +4,6 @@ import bodyParser from "body-parser";
 import pg from "pg";
 import dotenv from "dotenv";
 import argon2 from "argon2";
-import jwt from "jsonwebtoken";
 
 dotenv.config();
 
@@ -137,7 +136,7 @@ app.post(
 
       if (!isPasswordValid) {
         res.status(401).json({ message: "Invalid credentials" });
-      } else {
+      } else if (isPasswordValid) {
         res.status(200).json({
           message: "Login successful",
           token: process.env.JWT_SECRET,
