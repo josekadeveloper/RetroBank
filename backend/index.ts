@@ -161,7 +161,7 @@ app.post(
       const isPasswordValid = await argon2.verify(user.password, password);
 
       if (!isPasswordValid) {
-        res.status(401).json({ message: "Invalid credentials" });
+        return res.status(401).json({ message: "Invalid credentials" });
       } else {
         const token = jwt.sign(
           { username: user.username },
@@ -169,7 +169,7 @@ app.post(
           { expiresIn: "3m" }
         );
 
-        res.status(200).json({
+        return res.status(200).json({
           message: "Login successful",
           token: token,
         });
