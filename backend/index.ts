@@ -153,7 +153,7 @@ app.post(
       );
 
       if (result.rows.length === 0) {
-        return res.status(404).json({ message: "User not found" });
+        res.status(404).json({ message: "User not found" });
       }
 
       const user = result.rows[0];
@@ -161,7 +161,7 @@ app.post(
       const isPasswordValid = await argon2.verify(user.password, password);
 
       if (!isPasswordValid) {
-        return res.status(401).json({ message: "Invalid credentials" });
+        res.status(401).json({ message: "Invalid credentials" });
       }
 
       const token = jwt.sign(
@@ -170,7 +170,7 @@ app.post(
         { expiresIn: "3m" }
       );
 
-      return res.status(200).json({
+      res.status(200).json({
         message: "Login successful",
         token: token,
       });
