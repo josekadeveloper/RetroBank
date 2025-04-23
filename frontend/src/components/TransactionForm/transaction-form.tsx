@@ -64,7 +64,9 @@ export default function TransactionForm() {
         >
           <option value="">-- Select user --</option>
           {usersList?.map((name) => (
-            <option value={name}>{name}</option>
+            <option key={name.toString()} value={name}>
+              {name}
+            </option>
           ))}
         </select>
 

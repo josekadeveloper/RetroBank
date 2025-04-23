@@ -1,6 +1,9 @@
-import { Suspense, lazy } from "react";
+import { lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+import SpinnerWrapper from "./components/Spinner/spinner-wrapper";
+import NotFound from "./pages/NotFound/not-found";
 
 const Login = lazy(() => import("./pages/Login/login"));
 const Register = lazy(() => import("./pages/Register/register"));
@@ -8,14 +11,13 @@ const Home = lazy(() => import("./pages/Home/home"));
 const History = lazy(() => import("./pages/History/history"));
 
 import "./index.scss";
-import NotFound from "./pages/NotFound/not-found";
 
 function App() {
   const queryClient = new QueryClient();
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Suspense fallback={<div className="terminal">Cargando...</div>}>
+      <SpinnerWrapper>
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/home" element={<Home />} />
@@ -23,7 +25,7 @@ function App() {
           <Route path="/history/:username" element={<History />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </Suspense>
+      </SpinnerWrapper>
     </QueryClientProvider>
   );
 }
