@@ -24,11 +24,19 @@ export default function TransactionForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (amount === "" || beneficiary === "") {
+      toastNotification(
+        Notification.ERROR,
+        "Amount and beneficiary are required"
+      );
+      return;
+    }
+
+    setTriggerValidation(true);
     toastNotification(
       Notification.SUCCESS,
       `$${amount} sent to ${beneficiary}`
     );
-    setTriggerValidation(true);
   };
 
   const handleSuccess = () => {
@@ -79,9 +87,7 @@ export default function TransactionForm() {
           disabled={isSubmitting}
         />
 
-        <button type="submit" disabled={isSubmitting}>
-          Send
-        </button>
+        <button type="submit">Send</button>
       </form>
 
       {triggerValidation && (

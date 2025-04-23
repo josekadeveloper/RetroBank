@@ -1,4 +1,4 @@
-import { Id, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 export enum Notification {
   ERROR = "ERROR",
@@ -8,29 +8,30 @@ export enum Notification {
 export function toastNotification(
   typeNotification: Notification,
   message: string
-): Id {
-  if (typeNotification === Notification.ERROR) {
-    return toast.error(message, {
-      position: "top-center",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      className: "terminal",
-    });
-  } else if (typeNotification === Notification.SUCCESS) {
-    return toast.success(message, {
-      position: "top-center",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      className: "terminal",
-    });
-  }
-  return toast("");
+) {
+  setTimeout(() => {
+    if (typeNotification === Notification.ERROR) {
+      return toast.error(message, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        className: "terminal",
+      });
+    } else if (typeNotification === Notification.SUCCESS) {
+      return toast.success(message, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        className: "terminal",
+      });
+    }
+  }, 500);
 }
