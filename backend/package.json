@@ -4,7 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "start": "node --loader ts-node/esm ./index.ts"
+    "start": "node --loader ts-node/esm ./index.ts",
+    "reset-tables": "node --loader ts-node/esm ./reset-tables.ts"
   },
   "dependencies": {
     "@vercel/postgres": "^0.10.0",
