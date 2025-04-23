@@ -47,6 +47,10 @@ export default function Register() {
     setTriggerValidation(false);
   };
 
+  const back = () => {
+    navigate("/");
+  };
+
   return (
     <div className="terminal">
       <h1>REGISTER</h1>
@@ -84,6 +88,8 @@ export default function Register() {
         >
           Create Account
         </button>
+
+        <button onClick={() => back()}>Back</button>
       </form>
 
       {triggerValidation && (
