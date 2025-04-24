@@ -7,6 +7,9 @@ import {
   Notification,
   toastNotification,
 } from "../ToastNotification/toast-notification";
+import AnimatedLetters from "../AnimatedLetters/animated-letters";
+
+import "./transaction-form.scss";
 
 export default function TransactionForm() {
   const storedUser = localStorage.getItem("username");
@@ -18,6 +21,13 @@ export default function TransactionForm() {
   const [hasShownError, setHasShownError] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const [letterClass, setLetterClass] = useState("text-animate");
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLetterClass("text-animate-hover");
+    }, 4000);
+  }, []);
 
   const { data: usersList } = useGetUsers(remitter);
 
@@ -61,24 +71,37 @@ export default function TransactionForm() {
   };
 
   return (
-    <section>
+    <section className="transaction-form">
       <form onSubmit={handleSubmit}>
-        <label htmlFor="transfer-to">Transfer to:</label>
-        <select
-          id="transfer-to"
-          value={beneficiary}
-          onChange={(e) => setBeneficiary(e.target.value)}
-          disabled={isSubmitting}
-        >
-          <option value="">-- Select user --</option>
-          {usersList?.map((name) => (
-            <option key={name.toString()} value={name}>
-              {name}
-            </option>
-          ))}
-        </select>
-
-        <label htmlFor="amount">Amount:</label>
+        <div className="transfer-to-container">
+          <label htmlFor="transfer-to">
+            <AnimatedLetters
+              letterClass={letterClass}
+              strArray={"Transfer to:".split("")}
+              idx={15}
+            />
+          </label>
+          <select
+            id="transfer-to"
+            value={beneficiary}
+            onChange={(e) => setBeneficiary(e.target.value)}
+            disabled={isSubmitting}
+          >
+            <option value="">-- Select user --</option>
+            {usersList?.map((name) => (
+              <option key={name.toString()} value={name}>
+                {name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <label htmlFor="amount">
+          <AnimatedLetters
+            letterClass={letterClass}
+            strArray={"Amount:".split("")}
+            idx={15}
+          />
+        </label>
         <input
           id="amount"
           type="number"
@@ -86,10 +109,14 @@ export default function TransactionForm() {
           onChange={(e) => setAmount(e.target.value)}
           disabled={isSubmitting}
         />
-
-        <button type="submit">Send</button>
+        <button type="submit">
+          <AnimatedLetters
+            letterClass={letterClass}
+            strArray={"Send".split("")}
+            idx={15}
+          />
+        </button>
       </form>
-
       {triggerValidation && (
         <BalanceValidator
           remitter={remitter}
