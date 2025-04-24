@@ -1,0 +1,19 @@
+.transaction-form {
+  label {
+    padding: 10px;
+  }
+
+  input {
+    margin: 10px;
+  }
+}
+
+.transfer-to-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#transfer-to {
+  flex: 1;
+}

@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-
 import { useNavigate } from "react-router-dom";
+
 import { Transaction } from "../../models/model";
 import { useGetTransactions } from "../../hooks/use-get-transactions.hook";
-import { formatCurrency, formatDate } from "../../utils/functions";
+import AnimatedLetters from "../../components/AnimatedLetters/animated-letters";
+import TransactionInfo from "../../components/TransactionInfo/transaction-info";
 
 export default function History() {
   const navigate = useNavigate();
@@ -11,6 +12,13 @@ export default function History() {
   const remitter = storedUser ? JSON.parse(storedUser).username : null;
   const { data } = useGetTransactions(remitter);
   const [history, setHistory] = useState<Transaction[]>([]);
+  const [letterClass, setLetterClass] = useState("text-animate");
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLetterClass("text-animate-hover");
+    }, 4000);
+  }, []);
 
   useEffect(() => {
     const transactions = [] as Transaction[];
@@ -22,16 +30,21 @@ export default function History() {
 
   return (
     <div className="terminal">
-      <h1>Transactions History</h1>
-      <ul>
-        {history.map((tx, idx) => (
-          <li key={idx}>
-            [{formatDate(tx.date)}] {tx.remitter} → {tx.beneficiary}:{" "}
-            {formatCurrency(Number(tx.amount))}
-          </li>
-        ))}
-      </ul>
-      <button onClick={() => navigate(-1)}>Back</button>
+      <h1>
+        <AnimatedLetters
+          letterClass={letterClass}
+          strArray={"Transactions History".split("")}
+          idx={12}
+        />
+      </h1>
+      <TransactionInfo history={history} />
+      <button onClick={() => navigate(-1)}>
+        <AnimatedLetters
+          letterClass={letterClass}
+          strArray={"Back".split("")}
+          idx={12}
+        />
+      </button>
     </div>
   );
 }

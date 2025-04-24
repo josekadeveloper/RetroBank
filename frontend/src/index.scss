@@ -1,8 +1,12 @@
+@import "animate.css";
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+
 body {
   margin: 0;
   background-color: #000;
   color: #0f0;
-  font-family: "Courier New", Courier, monospace;
+  font-family: "Press Start 2P", monospace;
+  font-size: 12px;
 }
 
 .terminal {
@@ -10,7 +14,8 @@ body {
   flex-direction: column;
   align-items: center;
   padding: 2rem;
-  max-width: 600px;
+  max-width: 100%;
+  height: auto;
   margin: 5rem auto;
   border: 2px solid #0f0;
   background: #000;
@@ -41,5 +46,38 @@ body {
     background: #0f0;
     color: #000;
     cursor: pointer;
+  }
+}
+
+.cursor {
+  animation: blink 0.8s steps(2) infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    font-size: 7px;
+  }
+
+  .terminal {
+    padding: 1rem;
+    margin: 2rem auto;
+    box-shadow: 0 0 10px #0f0;
+  }
+
+  input,
+  button {
+    padding: 0.4rem;
+    font-size: 10px;
+  }
+
+  h1,
+  p {
+    margin-bottom: 0.5rem;
   }
 }

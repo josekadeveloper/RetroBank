@@ -6,6 +6,9 @@ import {
   Notification,
   toastNotification,
 } from "../../components/ToastNotification/toast-notification";
+import AnimatedLetters from "../../components/AnimatedLetters/animated-letters";
+
+import "./register.scss";
 
 export default function Register() {
   const [username, setUsername] = useState("");
@@ -17,6 +20,13 @@ export default function Register() {
   const [error, setError] = useState("");
   const [exitStatus, setExitStatus] = useState(0);
   const navigate = useNavigate();
+  const [letterClass, setLetterClass] = useState("text-animate");
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLetterClass("text-animate-hover");
+    }, 3000);
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,17 +63,34 @@ export default function Register() {
 
   return (
     <div className="terminal">
-      <h1>REGISTER</h1>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="username">Username:</label>
+      <h1>
+        <AnimatedLetters
+          letterClass={letterClass}
+          strArray={"REGISTER".split("")}
+          idx={15}
+        />
+      </h1>
+      <form onSubmit={handleSubmit} className="register-form">
+        <label htmlFor="username">
+          <AnimatedLetters
+            letterClass={letterClass}
+            strArray={"Username:".split("")}
+            idx={15}
+          />
+        </label>
         <input
           id="username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           disabled={isSubmitting}
         />
-
-        <label htmlFor="password">Password:</label>
+        <label htmlFor="password">
+          <AnimatedLetters
+            letterClass={letterClass}
+            strArray={"Password:".split("")}
+            idx={15}
+          />
+        </label>
         <input
           id="password"
           type="password"
@@ -71,8 +98,13 @@ export default function Register() {
           onChange={(e) => setPassword(e.target.value)}
           disabled={isSubmitting}
         />
-
-        <label htmlFor="balance">Balance:</label>
+        <label htmlFor="balance">
+          <AnimatedLetters
+            letterClass={letterClass}
+            strArray={"Balance:".split("")}
+            idx={15}
+          />
+        </label>
         <input
           id="balance"
           type="number"
@@ -80,18 +112,25 @@ export default function Register() {
           onChange={(e) => setBalance(e.target.value)}
           disabled={isSubmitting}
         />
-
         <button
           type="submit"
           onClick={() => setTriggerValidation(true)}
           disabled={isSubmitting}
         >
-          Create Account
+          <AnimatedLetters
+            letterClass={letterClass}
+            strArray={"Create Account".split("")}
+            idx={15}
+          />
         </button>
-
-        <button onClick={() => back()}>Back</button>
+        <button onClick={() => back()}>
+          <AnimatedLetters
+            letterClass={letterClass}
+            strArray={"Back".split("")}
+            idx={15}
+          />
+        </button>
       </form>
-
       {triggerValidation && (
         <RegisterValidator
           username={username}
