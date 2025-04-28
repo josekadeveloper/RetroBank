@@ -5,7 +5,7 @@ y Node.ts junto con PosgresSQL en la parte Back.
 
 ### Features
 
-[app](/Api.gif)
+![app](/Api.gif)
 
 ### Built With
 
