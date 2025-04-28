@@ -8,10 +8,10 @@ export default function NotFound() {
   localStorage.removeItem("token");
 
   return (
-    <div className="terminal">
+    <section className="terminal">
       <span className="not-found-icon">⚠️</span>
       <h1>{t("not-found.h1")}</h1>
       <p>{t("not-found.info")}</p>
-    </div>
+    </section>
   );
 }

@@ -31,7 +31,7 @@ export default function History() {
   }, [data]);
 
   return (
-    <div className="terminal">
+    <section className="terminal">
       <h1>
         <AnimatedLetters
           letterClass={letterClass}
@@ -47,6 +47,6 @@ export default function History() {
           idx={12}
         />
       </button>
-    </div>
+    </section>
   );
 }

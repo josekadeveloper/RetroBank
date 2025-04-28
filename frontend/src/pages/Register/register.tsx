@@ -64,7 +64,7 @@ export default function Register() {
   };
 
   return (
-    <div className="terminal">
+    <section className="terminal">
       <h1>
         <AnimatedLetters
           letterClass={letterClass}
@@ -144,6 +144,6 @@ export default function Register() {
           onDone={handleDone}
         />
       )}
-    </div>
+    </section>
   );
 }

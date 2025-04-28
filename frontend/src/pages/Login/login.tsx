@@ -67,7 +67,7 @@ export default function Login() {
   };
 
   return (
-    <div className="terminal">
+    <section className="terminal">
       <SelectLanguage
         currentLanguage={language}
         onChangeLanguage={handleLanguageChange}
@@ -148,6 +148,6 @@ export default function Login() {
           onDone={handleDone}
         />
       )}
-    </div>
+    </section>
   );
 }

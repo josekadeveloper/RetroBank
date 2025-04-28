@@ -35,7 +35,7 @@ export default function Home() {
   };
 
   return (
-    <div className="terminal">
+    <section className="terminal">
       <h1>
         <AnimatedLetters
           letterClass={letterClass}
@@ -78,6 +78,6 @@ export default function Home() {
           idx={15}
         />
       </button>
-    </div>
+    </section>
   );
 }

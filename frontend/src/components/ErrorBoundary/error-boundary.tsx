@@ -22,14 +22,14 @@ function ErrorFallback({ error, resetErrorBoundary }: Readonly<FallbackProps>) {
   });
 
   return (
-    <div className="terminal">
+    <section className="terminal">
       <span className="error-boundary-icon">❌</span>
       <h1>{t("errors.error-boundary-h1")}</h1>
       <p>{error.message}</p>
       <button onClick={resetErrorBoundary}>
         {t("errors.error-boundary-retry")}
       </button>
-    </div>
+    </section>
   );
 }
 

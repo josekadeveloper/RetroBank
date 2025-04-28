@@ -25,7 +25,7 @@ const SelectLanguage: React.FC<SelectLanguageProps> = ({
   };
 
   return (
-    <div className="select-language">
+    <section className="select-language">
       <label htmlFor="language-select">{t("select-language.language")}</label>
       <select
         id="language-select"
@@ -35,7 +35,7 @@ const SelectLanguage: React.FC<SelectLanguageProps> = ({
         <option value="en">{t("select-language.english")}</option>
         <option value="es">{t("select-language.spanish")}</option>
       </select>
-    </div>
+    </section>
   );
 };
 
