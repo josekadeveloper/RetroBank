@@ -1,12 +1,9 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 
-import "./select-language.scss";
+import { SelectLanguageProps } from "../../models/model";
 
-type SelectLanguageProps = {
-  currentLanguage: string;
-  onChangeLanguage: (language: string) => void;
-};
+import "./select-language.scss";
 
 const SelectLanguage: React.FC<SelectLanguageProps> = ({
   currentLanguage,

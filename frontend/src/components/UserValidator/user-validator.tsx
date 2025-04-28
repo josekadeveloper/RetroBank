@@ -2,15 +2,7 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 import { useValidateUser } from "../../hooks/use-validate-users.hook";
-
-type Props = {
-  username: string;
-  password: string;
-  trigger: boolean;
-  onSuccess: (token: string) => void;
-  onError: (error: string) => void;
-  onDone: () => void;
-};
+import { UserValidatorsProps } from "../../models/model";
 
 export default function UserValidator({
   username,
@@ -19,7 +11,7 @@ export default function UserValidator({
   onSuccess,
   onError,
   onDone,
-}: Props) {
+}: UserValidatorsProps) {
   const { refetch } = useValidateUser(username, password);
   const [t] = useTranslation("global");
 

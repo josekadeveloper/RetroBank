@@ -1,4 +1,3 @@
-import { ReactNode } from "react";
 import {
   ErrorBoundary as ReactErrorBoundary,
   FallbackProps,
@@ -6,12 +5,10 @@ import {
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 
+import { ErrorBoundaryProps } from "../../models/model";
+
 import "react-toastify/dist/ReactToastify.css";
 import "./error-boundary.scss";
-
-type Props = Readonly<{
-  children: ReactNode;
-}>;
 
 function ErrorFallback({ error, resetErrorBoundary }: Readonly<FallbackProps>) {
   const [t] = useTranslation("global");
@@ -33,7 +30,7 @@ function ErrorFallback({ error, resetErrorBoundary }: Readonly<FallbackProps>) {
   );
 }
 
-export function ErrorBoundary({ children }: Props) {
+export function ErrorBoundary({ children }: ErrorBoundaryProps) {
   return (
     <ReactErrorBoundary
       FallbackComponent={ErrorFallback}

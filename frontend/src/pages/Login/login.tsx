@@ -3,12 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import UserValidator from "../../components/UserValidator/user-validator";
-import {
-  Notification,
-  toastNotification,
-} from "../../components/ToastNotification/toast-notification";
+import { toastNotification } from "../../components/ToastNotification/toast-notification";
 import AnimatedLetters from "../../components/AnimatedLetters/animated-letters";
 import SelectLanguage from "../../components/SelectLanguage/select-language";
+import { Notification } from "../../models/model";
 
 import "./login.scss";
 
@@ -23,8 +21,8 @@ export default function Login() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const [letterClass, setLetterClass] = useState("text-animate");
-  const [t] = useTranslation("global");
-  const [language, setLanguage] = useState("en");
+  const [t, i18n] = useTranslation("global");
+  const [language, setLanguage] = useState(i18n.language);
 
   const handleLanguageChange = (newLanguage: string) => {
     setLanguage(newLanguage);

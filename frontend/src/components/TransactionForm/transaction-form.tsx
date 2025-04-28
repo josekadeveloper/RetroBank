@@ -44,7 +44,7 @@ export default function TransactionForm() {
     setTriggerValidation(true);
     toastNotification(
       Notification.SUCCESS,
-      `$${amount} ${t("transaction-form.transfer-to")} ${beneficiary}`
+      `$${amount} ${t("transaction-form.sent-to")} ${beneficiary}`
     );
   };
 

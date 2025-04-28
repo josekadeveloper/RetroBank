@@ -2,16 +2,7 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 import { useRegisterUser } from "../../hooks/use-register-user.hook";
-
-type Props = {
-  username: string;
-  password: string;
-  balance: number;
-  trigger: boolean;
-  onSuccess: (balance: number) => void;
-  onError: (error: string) => void;
-  onDone: () => void;
-};
+import { RegisterValidatorProps } from "../../models/model";
 
 export default function RegisterValidator({
   username,
@@ -21,7 +12,7 @@ export default function RegisterValidator({
   onSuccess,
   onError,
   onDone,
-}: Props) {
+}: RegisterValidatorProps) {
   const { refetch } = useRegisterUser(username, password, balance);
   const [t] = useTranslation("global");
 

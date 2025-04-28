@@ -3,11 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import RegisterValidator from "../../components/RegisterValidator/register-validator";
-import {
-  Notification,
-  toastNotification,
-} from "../../components/ToastNotification/toast-notification";
+import { toastNotification } from "../../components/ToastNotification/toast-notification";
 import AnimatedLetters from "../../components/AnimatedLetters/animated-letters";
+import { Notification } from "../../models/model";
 
 import "./register.scss";
 

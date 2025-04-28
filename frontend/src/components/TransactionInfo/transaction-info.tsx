@@ -1,13 +1,9 @@
 import { useEffect, useState } from "react";
-import { Transaction } from "../../models/model";
+import { Transaction, TransactionInfoProps } from "../../models/model";
 import { formatCurrency, formatDate } from "../../utils/functions";
 import AnimatedLetters from "../AnimatedLetters/animated-letters";
 
 import "./transaction-info.scss";
-
-interface TransactionInfoProps {
-  history: Transaction[];
-}
 
 const TransactionInfo = ({ history }: TransactionInfoProps) => {
   const [letterClass, setLetterClass] = useState("text-animate");
@@ -19,17 +15,11 @@ const TransactionInfo = ({ history }: TransactionInfoProps) => {
   }, []);
 
   const getDateText = (tx: Transaction) => {
-    return (
-      "[" +
-      formatDate(tx.date) +
-      "]" +
-      " " +
-      tx.remitter +
-      " → " +
-      tx.beneficiary +
-      ":" +
-      " "
-    );
+    return "[" + formatDate(tx.date) + "]";
+  };
+
+  const getTransactionText = (tx: Transaction) => {
+    return tx.remitter + " → " + tx.beneficiary + ":" + " ";
   };
 
   const getCurrencyText = (tx: Transaction) => {
@@ -43,7 +33,13 @@ const TransactionInfo = ({ history }: TransactionInfoProps) => {
           <AnimatedLetters
             letterClass={letterClass}
             strArray={getDateText(tx).split("")}
-            idx={-15}
+            idx={0}
+          />
+          <br></br>
+          <AnimatedLetters
+            letterClass={letterClass}
+            strArray={getTransactionText(tx).split("")}
+            idx={12}
           />
           <AnimatedLetters
             letterClass={letterClass}

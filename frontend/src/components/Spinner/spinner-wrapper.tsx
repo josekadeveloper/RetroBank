@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
+import { SpinnerWrapperProps } from "../../models/model";
+
 import Spinner from "./spinner";
 
-type Props = Readonly<{
-  children: React.ReactNode;
-}>;
-
-export default function SpinnerWrapper({ children }: Props) {
+export default function SpinnerWrapper({ children }: SpinnerWrapperProps) {
   const location = useLocation();
   const [loading, setLoading] = useState(false);
 
