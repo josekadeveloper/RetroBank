@@ -4,24 +4,31 @@ import {
   FallbackProps,
 } from "react-error-boundary";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 import "react-toastify/dist/ReactToastify.css";
+import "./error-boundary.scss";
 
 type Props = Readonly<{
   children: ReactNode;
 }>;
 
 function ErrorFallback({ error, resetErrorBoundary }: Readonly<FallbackProps>) {
-  toast.error("Algo salió mal. Por favor, recarga la página.", {
+  const [t] = useTranslation("global");
+
+  toast.error(t("errors.toast-error"), {
     position: "top-center",
     autoClose: 5000,
   });
 
   return (
-    <div className="error-boundary">
-      <h1>❌ Error inesperado</h1>
+    <div className="terminal">
+      <span className="error-boundary-icon">❌</span>
+      <h1>{t("errors.error-boundary-h1")}</h1>
       <p>{error.message}</p>
-      <button onClick={resetErrorBoundary}>Retry</button>
+      <button onClick={resetErrorBoundary}>
+        {t("errors.error-boundary-retry")}
+      </button>
     </div>
   );
 }

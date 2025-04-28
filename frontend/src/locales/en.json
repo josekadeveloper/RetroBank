@@ -1,0 +1,55 @@
+{
+  "select-language": {
+    "language": "Language",
+    "english": "English",
+    "spanish": "Spanish"
+  },
+  "login": {
+    "h1": "RETRO BANK",
+    "username": "Username",
+    "password": "Password",
+    "login": "Login",
+    "loggin-in": "Logging in...",
+    "successful": "Login successful",
+    "register": "Register"
+  },
+  "register": {
+    "h1": "REGISTER",
+    "username": "Username",
+    "password": "Password",
+    "balance": "Balance",
+    "create-account": "Create Account",
+    "back": "Back",
+    "successful": "Register successful"
+  },
+  "home": {
+    "h1": "WELCOME,",
+    "balance": "Balance: $",
+    "loading": "Loading...",
+    "history": "View history",
+    "logout": "Logout"
+  },
+  "transaction-form": {
+    "transfer-to": "Transfer to:",
+    "sent-to": "sent to",
+    "select-user": "-- Select user --",
+    "amount": "Amount:",
+    "send": "Send"
+  },
+  "transactions-history": {
+    "h1": "Transactions History",
+    "back": "Back"
+  },
+  "not-found": {
+    "h1": "Page not found",
+    "info": "The route you are trying to access does not exist."
+  },
+  "errors": {
+    "toast-error": "Something it's wrong. Please, retry the page.",
+    "error-boundary-h1": "Unexpected error",
+    "error-boundary-retry": "Retry",
+    "invalid-credentials": "Invalid credentials",
+    "unexpected": "An unexpected error occurred",
+    "transfer": "Amount and beneficiary are required"
+  }
+}

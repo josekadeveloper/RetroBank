@@ -1,8 +1,17 @@
+import { useTranslation } from "react-i18next";
+
+import "./not-found.scss";
+
 export default function NotFound() {
+  const [t] = useTranslation("global");
+
+  localStorage.removeItem("token");
+
   return (
     <div className="terminal">
-      <h1>⚠️ Página no encontrada</h1>
-      <p>La ruta que estás intentando acceder no existe.</p>
+      <span className="not-found-icon">⚠️</span>
+      <h1>{t("not-found.h1")}</h1>
+      <p>{t("not-found.info")}</p>
     </div>
   );
 }

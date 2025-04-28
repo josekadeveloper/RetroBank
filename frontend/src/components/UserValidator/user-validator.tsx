@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 import { useValidateUser } from "../../hooks/use-validate-users.hook";
 
@@ -20,6 +21,7 @@ export default function UserValidator({
   onDone,
 }: Props) {
   const { refetch } = useValidateUser(username, password);
+  const [t] = useTranslation("global");
 
   useEffect(() => {
     if (!trigger) return;
@@ -35,15 +37,13 @@ export default function UserValidator({
         }
       } catch (error) {
         onError(
-          error instanceof Error
-            ? error.message
-            : "An unexpected error occurred"
+          error instanceof Error ? error.message : t("errors.unexpected")
         );
       } finally {
         onDone();
       }
     })();
-  }, [onDone, onError, onSuccess, refetch, trigger]);
+  }, [onDone, onError, onSuccess, refetch, trigger, t]);
 
   return null;
 }

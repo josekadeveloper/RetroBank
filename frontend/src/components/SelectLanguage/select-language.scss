@@ -1,0 +1,32 @@
+.select-language {
+  position: fixed; /* Fija el componente en la pantalla */
+  top: 10px; /* Ubicación desde la parte superior */
+  right: 10px; /* Ubicación desde la derecha */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #000; /* Fondo negro para que combine con el diseño */
+  padding: 5px 10px; /* Espaciado interno */
+  border: 1px solid #0f0; /* Borde verde retro */
+  border-radius: 5px; /* Bordes redondeados opcionales */
+  box-shadow: 0 0 10px #0f0; /* Sombra verde retro */
+
+  label {
+    font-size: 14px;
+    color: #0f0; /* Texto verde */
+  }
+
+  select {
+    padding: 5px;
+    font-size: 14px;
+    background-color: #000; /* Fondo negro */
+    color: #0f0; /* Texto verde */
+    border: 1px solid #0f0; /* Borde verde */
+    border-radius: 3px; /* Bordes redondeados */
+  }
+
+  select:focus {
+    outline: none;
+    box-shadow: 0 0 5px #0f0; /* Resalta el select al enfocarlo */
+  }
+}

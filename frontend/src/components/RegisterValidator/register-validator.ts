@@ -1,4 +1,6 @@
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+
 import { useRegisterUser } from "../../hooks/use-register-user.hook";
 
 type Props = {
@@ -21,6 +23,7 @@ export default function RegisterValidator({
   onDone,
 }: Props) {
   const { refetch } = useRegisterUser(username, password, balance);
+  const [t] = useTranslation("global");
 
   useEffect(() => {
     if (!trigger) return;
@@ -31,11 +34,11 @@ export default function RegisterValidator({
         const exit = 1;
         onSuccess(exit);
       } else {
-        onError(error?.message ?? "Invalid credentials");
+        onError(error?.message ?? t("errors.invalid-credentials"));
       }
       onDone();
     })();
-  }, [onDone, onError, onSuccess, refetch, trigger]);
+  }, [onDone, onError, onSuccess, refetch, trigger, t]);
 
   return null;
 }

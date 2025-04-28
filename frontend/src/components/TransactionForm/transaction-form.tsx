@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { useGetUsers } from "../../hooks/use-get-users.hook";
 import BalanceValidator from "../BalanceValidator/balance-validator";
@@ -22,6 +23,7 @@ export default function TransactionForm() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const [letterClass, setLetterClass] = useState("text-animate");
+  const [t] = useTranslation("global");
 
   useEffect(() => {
     setTimeout(() => {
@@ -35,17 +37,14 @@ export default function TransactionForm() {
     e.preventDefault();
 
     if (amount === "" || beneficiary === "") {
-      toastNotification(
-        Notification.ERROR,
-        "Amount and beneficiary are required"
-      );
+      toastNotification(Notification.ERROR, t("errors.transfer"));
       return;
     }
 
     setTriggerValidation(true);
     toastNotification(
       Notification.SUCCESS,
-      `$${amount} sent to ${beneficiary}`
+      `$${amount} ${t("transaction-form.transfer-to")} ${beneficiary}`
     );
   };
 
@@ -77,7 +76,7 @@ export default function TransactionForm() {
           <label htmlFor="transfer-to">
             <AnimatedLetters
               letterClass={letterClass}
-              strArray={"Transfer to:".split("")}
+              strArray={t("transaction-form.transfer-to").split("")}
               idx={15}
             />
           </label>
@@ -87,7 +86,7 @@ export default function TransactionForm() {
             onChange={(e) => setBeneficiary(e.target.value)}
             disabled={isSubmitting}
           >
-            <option value="">-- Select user --</option>
+            <option value="">{t("transaction-form.select-user")}</option>
             {usersList?.map((name) => (
               <option key={name.toString()} value={name}>
                 {name}
@@ -98,7 +97,7 @@ export default function TransactionForm() {
         <label htmlFor="amount">
           <AnimatedLetters
             letterClass={letterClass}
-            strArray={"Amount:".split("")}
+            strArray={t("transaction-form.amount").split("")}
             idx={15}
           />
         </label>
@@ -112,7 +111,7 @@ export default function TransactionForm() {
         <button type="submit">
           <AnimatedLetters
             letterClass={letterClass}
-            strArray={"Send".split("")}
+            strArray={t("transaction-form.send").split("")}
             idx={15}
           />
         </button>

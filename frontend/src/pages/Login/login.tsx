@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import UserValidator from "../../components/UserValidator/user-validator";
 import {
@@ -7,6 +8,9 @@ import {
   toastNotification,
 } from "../../components/ToastNotification/toast-notification";
 import AnimatedLetters from "../../components/AnimatedLetters/animated-letters";
+import SelectLanguage from "../../components/SelectLanguage/select-language";
+
+import "./login.scss";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -19,6 +23,12 @@ export default function Login() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const [letterClass, setLetterClass] = useState("text-animate");
+  const [t] = useTranslation("global");
+  const [language, setLanguage] = useState("en");
+
+  const handleLanguageChange = (newLanguage: string) => {
+    setLanguage(newLanguage);
+  };
 
   useEffect(() => {
     setTimeout(() => {
@@ -41,9 +51,9 @@ export default function Login() {
       toastNotification(Notification.ERROR, error);
       setHasShownError(true);
     } else if (token !== null) {
-      toastNotification(Notification.SUCCESS, "Login successful");
+      toastNotification(Notification.SUCCESS, t("login.successful"));
     }
-  }, [error, hasShownError, token]);
+  }, [error, hasShownError, token, t]);
 
   const handleSuccess = (token: string) => {
     localStorage.setItem("token", JSON.stringify({ token }));
@@ -58,18 +68,22 @@ export default function Login() {
 
   return (
     <div className="terminal">
+      <SelectLanguage
+        currentLanguage={language}
+        onChangeLanguage={handleLanguageChange}
+      />
       <h1 className="cursor">
         <AnimatedLetters
           letterClass={letterClass}
-          strArray={"RETRO BANK".split("")}
+          strArray={t("login.h1").split("")}
           idx={15}
         />
       </h1>
-      <form onSubmit={handleLogin}>
+      <form onSubmit={handleLogin} className="login-form">
         <label htmlFor="username">
           <AnimatedLetters
             letterClass={letterClass}
-            strArray={"Username:".split("")}
+            strArray={t("login.username").split("")}
             idx={15}
           />
         </label>
@@ -79,11 +93,10 @@ export default function Login() {
           onChange={(e) => setUsername(e.target.value)}
           disabled={isSubmitting}
         />
-
         <label htmlFor="password">
           <AnimatedLetters
             letterClass={letterClass}
-            strArray={"Password:".split("")}
+            strArray={t("login.password").split("")}
             idx={15}
           />
         </label>
@@ -94,7 +107,6 @@ export default function Login() {
           onChange={(e) => setPassword(e.target.value)}
           disabled={isSubmitting}
         />
-
         <button
           type="submit"
           onClick={() => setTriggerValidation(true)}
@@ -103,13 +115,13 @@ export default function Login() {
           {isSubmitting ? (
             <AnimatedLetters
               letterClass={letterClass}
-              strArray={"Logging in...".split("")}
+              strArray={t("login.loggin-in").split("")}
               idx={15}
             />
           ) : (
             <AnimatedLetters
               letterClass={letterClass}
-              strArray={"Login".split("")}
+              strArray={t("login.login").split("")}
               idx={15}
             />
           )}
@@ -122,11 +134,10 @@ export default function Login() {
       >
         <AnimatedLetters
           letterClass={letterClass}
-          strArray={"Register".split("")}
+          strArray={t("login.register").split("")}
           idx={15}
         />
       </button>
-
       {triggerValidation && (
         <UserValidator
           username={username}
