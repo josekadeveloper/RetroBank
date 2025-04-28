@@ -7,6 +7,8 @@ import { useGetTransactions } from "../../hooks/use-get-transactions.hook";
 import AnimatedLetters from "../../components/AnimatedLetters/animated-letters";
 import TransactionInfo from "../../components/TransactionInfo/transaction-info";
 
+import "./history.scss";
+
 export default function History() {
   const navigate = useNavigate();
   const storedUser = localStorage.getItem("username");
@@ -32,7 +34,7 @@ export default function History() {
 
   return (
     <section className="terminal">
-      <h1>
+      <h1 className="history-title">
         <AnimatedLetters
           letterClass={letterClass}
           strArray={t("transactions-history.h1").split("")}
