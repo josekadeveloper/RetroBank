@@ -1,0 +1,55 @@
+{
+  "select-language": {
+    "language": "Lenguaje",
+    "english": "Inglés",
+    "spanish": "Español"
+  },
+  "login": {
+    "h1": "BANCO RETRO",
+    "username": "Nombre",
+    "password": "Contraseña",
+    "login": "Entrar",
+    "loggin-in": "Entrando en...",
+    "successful": "Logueo exitoso",
+    "register": "Registrarse"
+  },
+  "register": {
+    "h1": "REGISTRO",
+    "username": "Nombre",
+    "password": "Contraseña",
+    "balance": "Balance",
+    "create-account": "Crear Cuenta",
+    "back": "Volver",
+    "successful": "Registro exitoso"
+  },
+  "home": {
+    "h1": "BIENVENIDO,",
+    "balance": "Balance: $",
+    "loading": "Cargando...",
+    "history": "Ver historial",
+    "logout": "Desloguearse"
+  },
+  "transaction-form": {
+    "transfer-to": "Transferir a:",
+    "sent-to": "enviado a",
+    "select-user": "-- Seleccionar usuario --",
+    "amount": "Cantidad:",
+    "send": "Enviar"
+  },
+  "transactions-history": {
+    "h1": "Historial De Transacciones",
+    "back": "Volver"
+  },
+  "not-found": {
+    "h1": "Página no encontrada",
+    "info": "La ruta que estás intentando acceder no existe."
+  },
+  "errors": {
+    "toast-error": "Algo salió mal. Por favor, recarga la página.",
+    "error-boundary-h1": "Error inesperado",
+    "error-boundary-retry": "Reintentar",
+    "invalid-credentials": "Credenciales incorrectas",
+    "unexpected": "Ha ocurrido un error inesperado",
+    "transfer": "Cantidad y beneficiario son obligatorios"
+  }
+}

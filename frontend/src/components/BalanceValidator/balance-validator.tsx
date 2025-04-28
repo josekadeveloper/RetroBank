@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 import { useUpdateBalance } from "../../hooks/use-update-balance.hook";
 
@@ -24,6 +25,7 @@ export default function BalanceValidator({
   onDone,
 }: Props) {
   const { refetch } = useUpdateBalance(remitter, beneficiary, balance, date);
+  const [t] = useTranslation("global");
 
   useEffect(() => {
     if (!trigger) return;
@@ -33,11 +35,11 @@ export default function BalanceValidator({
       if (data) {
         onSuccess(data.balance);
       } else {
-        onError(error?.message ?? "Invalid credentials");
+        onError(error?.message ?? t("errors.invalid-credentials"));
       }
       onDone();
     })();
-  }, [onDone, onError, onSuccess, refetch, trigger]);
+  }, [onDone, onError, onSuccess, refetch, trigger, t]);
 
   return null;
 }

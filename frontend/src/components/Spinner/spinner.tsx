@@ -4,8 +4,8 @@ import "./spinner.scss";
 
 export default function Spinner() {
   return (
-    <div className="spinner-overlay">
+    <section className="spinner-overlay">
       <FaSpinner className="spinner-icon" />
-    </div>
+    </section>
   );
 }

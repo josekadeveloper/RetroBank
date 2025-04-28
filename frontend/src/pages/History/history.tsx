@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { Transaction } from "../../models/model";
 import { useGetTransactions } from "../../hooks/use-get-transactions.hook";
@@ -13,6 +14,7 @@ export default function History() {
   const { data } = useGetTransactions(remitter);
   const [history, setHistory] = useState<Transaction[]>([]);
   const [letterClass, setLetterClass] = useState("text-animate");
+  const [t, i18n] = useTranslation("global");
 
   useEffect(() => {
     setTimeout(() => {
@@ -29,22 +31,22 @@ export default function History() {
   }, [data]);
 
   return (
-    <div className="terminal">
+    <section className="terminal">
       <h1>
         <AnimatedLetters
           letterClass={letterClass}
-          strArray={"Transactions History".split("")}
-          idx={12}
+          strArray={t("transactions-history.h1").split("")}
+          idx={i18n.language === "en" ? 12 : 5}
         />
       </h1>
       <TransactionInfo history={history} />
       <button onClick={() => navigate(-1)}>
         <AnimatedLetters
           letterClass={letterClass}
-          strArray={"Back".split("")}
+          strArray={t("transactions-history.back").split("")}
           idx={12}
         />
       </button>
-    </div>
+    </section>
   );
 }

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import RegisterValidator from "../../components/RegisterValidator/register-validator";
 import {
@@ -21,6 +22,7 @@ export default function Register() {
   const [exitStatus, setExitStatus] = useState(0);
   const navigate = useNavigate();
   const [letterClass, setLetterClass] = useState("text-animate");
+  const [t] = useTranslation("global");
 
   useEffect(() => {
     setTimeout(() => {
@@ -48,9 +50,9 @@ export default function Register() {
       toastNotification(Notification.ERROR, error);
       setHasShownError(true);
     } else if (exitStatus === 1) {
-      toastNotification(Notification.SUCCESS, "Register successful");
+      toastNotification(Notification.SUCCESS, t("register.successful"));
     }
-  }, [error, hasShownError, exitStatus]);
+  }, [error, hasShownError, exitStatus, t]);
 
   const handleDone = () => {
     setIsSubmitting(false);
@@ -62,11 +64,11 @@ export default function Register() {
   };
 
   return (
-    <div className="terminal">
+    <section className="terminal">
       <h1>
         <AnimatedLetters
           letterClass={letterClass}
-          strArray={"REGISTER".split("")}
+          strArray={t("register.h1").split("")}
           idx={15}
         />
       </h1>
@@ -74,7 +76,7 @@ export default function Register() {
         <label htmlFor="username">
           <AnimatedLetters
             letterClass={letterClass}
-            strArray={"Username:".split("")}
+            strArray={t("register.username").split("")}
             idx={15}
           />
         </label>
@@ -87,7 +89,7 @@ export default function Register() {
         <label htmlFor="password">
           <AnimatedLetters
             letterClass={letterClass}
-            strArray={"Password:".split("")}
+            strArray={t("register.password").split("")}
             idx={15}
           />
         </label>
@@ -101,7 +103,7 @@ export default function Register() {
         <label htmlFor="balance">
           <AnimatedLetters
             letterClass={letterClass}
-            strArray={"Balance:".split("")}
+            strArray={t("register.balance").split("")}
             idx={15}
           />
         </label>
@@ -119,14 +121,14 @@ export default function Register() {
         >
           <AnimatedLetters
             letterClass={letterClass}
-            strArray={"Create Account".split("")}
+            strArray={t("register.create-account").split("")}
             idx={15}
           />
         </button>
         <button onClick={() => back()}>
           <AnimatedLetters
             letterClass={letterClass}
-            strArray={"Back".split("")}
+            strArray={t("register.back").split("")}
             idx={15}
           />
         </button>
@@ -142,6 +144,6 @@ export default function Register() {
           onDone={handleDone}
         />
       )}
-    </div>
+    </section>
   );
 }

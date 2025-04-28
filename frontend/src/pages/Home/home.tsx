@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import TransactionForm from "../../components/TransactionForm/transaction-form";
 import { useGetBalance } from "../../hooks/use-get-balance.hook";
@@ -11,8 +12,9 @@ export default function Home() {
   const actualUserName = storedUser ? JSON.parse(storedUser).username : null;
   const { data } = useGetBalance(actualUserName);
   const [balance, setBalance] = useState<number | null>(null);
-  const homeTitle = "WELCOME, " + actualUserName?.toUpperCase();
   const [letterClass, setLetterClass] = useState("text-animate");
+  const [t] = useTranslation("global");
+  const homeTitle = t("home.h1") + actualUserName?.toUpperCase();
 
   useEffect(() => {
     setTimeout(() => {
@@ -33,7 +35,7 @@ export default function Home() {
   };
 
   return (
-    <div className="terminal">
+    <section className="terminal">
       <h1>
         <AnimatedLetters
           letterClass={letterClass}
@@ -44,7 +46,7 @@ export default function Home() {
       <p>
         <AnimatedLetters
           letterClass={letterClass}
-          strArray={"Balance: $".split("")}
+          strArray={t("home.balance").split("")}
           idx={15}
         />
         {balance !== null ? (
@@ -56,7 +58,7 @@ export default function Home() {
         ) : (
           <AnimatedLetters
             letterClass={letterClass}
-            strArray={"Loading...".split("")}
+            strArray={t("home.loading").split("")}
             idx={15}
           />
         )}
@@ -65,17 +67,17 @@ export default function Home() {
       <button onClick={() => navigate(`/history/${actualUserName}`)}>
         <AnimatedLetters
           letterClass={letterClass}
-          strArray={"View History".split("")}
+          strArray={t("home.history").split("")}
           idx={15}
         />
       </button>
       <button onClick={onLogout}>
         <AnimatedLetters
           letterClass={letterClass}
-          strArray={"Logout".split("")}
+          strArray={t("home.logout").split("")}
           idx={15}
         />
       </button>
-    </div>
+    </section>
   );
 }
