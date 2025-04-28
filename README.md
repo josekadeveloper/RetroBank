@@ -1,10 +1,11 @@
 # Retro Bank
 
-Se desarrollará una app de cajero de banco con estilo retro en React, TypeScript, Sass y Vite.
+Aplicativo: Terminal de cajero de banco con estilo retro en React, TypeScript, Sass y Vite por la parte Front
+y Node.ts junto con PosgresSQL en la parte Back.
 
 ### Features
 
-<!-- ![app](/Api.gif) -->
+[app](/Api.gif)
 
 ### Built With
 
