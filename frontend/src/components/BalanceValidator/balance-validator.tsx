@@ -2,17 +2,7 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 import { useUpdateBalance } from "../../hooks/use-update-balance.hook";
-
-type Props = {
-  remitter: string;
-  beneficiary: string;
-  balance: number;
-  date: string;
-  trigger: boolean;
-  onSuccess: (balance: number) => void;
-  onError: (error: string) => void;
-  onDone: () => void;
-};
+import { BalanceValidatorProps } from "../../models/model";
 
 export default function BalanceValidator({
   remitter,
@@ -23,7 +13,7 @@ export default function BalanceValidator({
   onSuccess,
   onError,
   onDone,
-}: Props) {
+}: BalanceValidatorProps) {
   const { refetch } = useUpdateBalance(remitter, beneficiary, balance, date);
   const [t] = useTranslation("global");
 

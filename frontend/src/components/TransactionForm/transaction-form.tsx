@@ -4,11 +4,9 @@ import { useTranslation } from "react-i18next";
 
 import { useGetUsers } from "../../hooks/use-get-users.hook";
 import BalanceValidator from "../BalanceValidator/balance-validator";
-import {
-  Notification,
-  toastNotification,
-} from "../ToastNotification/toast-notification";
+import { toastNotification } from "../ToastNotification/toast-notification";
 import AnimatedLetters from "../AnimatedLetters/animated-letters";
+import { Notification } from "../../models/model";
 
 import "./transaction-form.scss";
 
@@ -44,7 +42,7 @@ export default function TransactionForm() {
     setTriggerValidation(true);
     toastNotification(
       Notification.SUCCESS,
-      `$${amount} ${t("transaction-form.transfer-to")} ${beneficiary}`
+      `$${amount} ${t("transaction-form.sent-to")} ${beneficiary}`
     );
   };
 

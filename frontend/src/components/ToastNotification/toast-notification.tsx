@@ -1,9 +1,6 @@
 import { toast } from "react-toastify";
 
-export enum Notification {
-  ERROR = "ERROR",
-  SUCCESS = "SUCCESS",
-}
+import { Notification } from "../../models/model";
 
 export function toastNotification(
   typeNotification: Notification,
