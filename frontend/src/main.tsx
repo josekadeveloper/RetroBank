@@ -24,14 +24,14 @@ i18next.init({
 });
 
 createRoot(document.getElementById("root")!).render(
-  <ErrorBoundary>
-    <I18nextProvider i18n={i18next}>
+  <I18nextProvider i18n={i18next}>
+    <ErrorBoundary>
       <BrowserRouter>
         <Routes>
           <Route path="/*" element={<App />} />
         </Routes>
       </BrowserRouter>
       <ToastContainer />
-    </I18nextProvider>
-  </ErrorBoundary>
+    </ErrorBoundary>
+  </I18nextProvider>
 );

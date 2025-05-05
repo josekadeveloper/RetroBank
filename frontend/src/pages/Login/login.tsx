@@ -20,19 +20,12 @@ export default function Login() {
   const [hasShownError, setHasShownError] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const [letterClass, setLetterClass] = useState("text-animate");
   const [t, i18n] = useTranslation("global");
   const [language, setLanguage] = useState(i18n.language);
 
   const handleLanguageChange = (newLanguage: string) => {
     setLanguage(newLanguage);
   };
-
-  useEffect(() => {
-    setTimeout(() => {
-      setLetterClass("text-animate-hover");
-    }, 3000);
-  }, []);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,19 +64,11 @@ export default function Login() {
         onChangeLanguage={handleLanguageChange}
       />
       <h1 className="cursor">
-        <AnimatedLetters
-          letterClass={letterClass}
-          strArray={t("login.h1").split("")}
-          idx={15}
-        />
+        <AnimatedLetters strArray={t("login.h1").split("")} idx={15} />
       </h1>
       <form onSubmit={handleLogin} className="login-form">
         <label htmlFor="username">
-          <AnimatedLetters
-            letterClass={letterClass}
-            strArray={t("login.username").split("")}
-            idx={15}
-          />
+          <AnimatedLetters strArray={t("login.username").split("")} idx={15} />
         </label>
         <input
           id="username"
@@ -92,11 +77,7 @@ export default function Login() {
           disabled={isSubmitting}
         />
         <label htmlFor="password">
-          <AnimatedLetters
-            letterClass={letterClass}
-            strArray={t("login.password").split("")}
-            idx={15}
-          />
+          <AnimatedLetters strArray={t("login.password").split("")} idx={15} />
         </label>
         <input
           id="password"
@@ -112,16 +93,11 @@ export default function Login() {
         >
           {isSubmitting ? (
             <AnimatedLetters
-              letterClass={letterClass}
               strArray={t("login.loggin-in").split("")}
-              idx={15}
+              idx={2}
             />
           ) : (
-            <AnimatedLetters
-              letterClass={letterClass}
-              strArray={t("login.login").split("")}
-              idx={15}
-            />
+            <AnimatedLetters strArray={t("login.login").split("")} idx={15} />
           )}
         </button>
       </form>
@@ -130,11 +106,7 @@ export default function Login() {
         onClick={() => navigate("/register")}
         disabled={isSubmitting}
       >
-        <AnimatedLetters
-          letterClass={letterClass}
-          strArray={t("login.register").split("")}
-          idx={15}
-        />
+        <AnimatedLetters strArray={t("login.register").split("")} idx={15} />
       </button>
       {triggerValidation && (
         <UserValidator

@@ -1,24 +1,13 @@
 .text-animate {
   display: inline-block;
   opacity: 0;
-  animation: typewriter 0.5s steps(1) forwards;
+  animation: typewriter 0.01s steps(1) forwards;
   min-width: 10px;
-}
-
-.text-animate-hover {
-  min-width: 10px;
-  display: inline-block;
-  animation-fill-mode: both;
-
-  &:hover {
-    animation: rubberBand 1s;
-    color: #008000;
-  }
 }
 
 @for $i from 1 through 31 {
   .text-animate._#{$i} {
-    animation-delay: #{$i * 0.1}s;
+    animation-delay: #{$i * 0.05}s;
   }
 }
 

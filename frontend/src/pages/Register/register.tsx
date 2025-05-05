@@ -19,14 +19,7 @@ export default function Register() {
   const [error, setError] = useState("");
   const [exitStatus, setExitStatus] = useState(0);
   const navigate = useNavigate();
-  const [letterClass, setLetterClass] = useState("text-animate");
   const [t] = useTranslation("global");
-
-  useEffect(() => {
-    setTimeout(() => {
-      setLetterClass("text-animate-hover");
-    }, 3000);
-  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -64,16 +57,11 @@ export default function Register() {
   return (
     <section className="terminal">
       <h1>
-        <AnimatedLetters
-          letterClass={letterClass}
-          strArray={t("register.h1").split("")}
-          idx={15}
-        />
+        <AnimatedLetters strArray={t("register.h1").split("")} idx={15} />
       </h1>
       <form onSubmit={handleSubmit} className="register-form">
         <label htmlFor="username">
           <AnimatedLetters
-            letterClass={letterClass}
             strArray={t("register.username").split("")}
             idx={15}
           />
@@ -86,7 +74,6 @@ export default function Register() {
         />
         <label htmlFor="password">
           <AnimatedLetters
-            letterClass={letterClass}
             strArray={t("register.password").split("")}
             idx={15}
           />
@@ -100,7 +87,6 @@ export default function Register() {
         />
         <label htmlFor="balance">
           <AnimatedLetters
-            letterClass={letterClass}
             strArray={t("register.balance").split("")}
             idx={15}
           />
@@ -118,17 +104,12 @@ export default function Register() {
           disabled={isSubmitting}
         >
           <AnimatedLetters
-            letterClass={letterClass}
             strArray={t("register.create-account").split("")}
             idx={15}
           />
         </button>
         <button onClick={() => back()}>
-          <AnimatedLetters
-            letterClass={letterClass}
-            strArray={t("register.back").split("")}
-            idx={15}
-          />
+          <AnimatedLetters strArray={t("register.back").split("")} idx={15} />
         </button>
       </form>
       {triggerValidation && (

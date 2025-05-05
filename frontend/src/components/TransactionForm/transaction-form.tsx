@@ -20,14 +20,7 @@ export default function TransactionForm() {
   const [hasShownError, setHasShownError] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const [letterClass, setLetterClass] = useState("text-animate");
   const [t] = useTranslation("global");
-
-  useEffect(() => {
-    setTimeout(() => {
-      setLetterClass("text-animate-hover");
-    }, 4000);
-  }, []);
 
   const { data: usersList } = useGetUsers(remitter);
 
@@ -73,7 +66,6 @@ export default function TransactionForm() {
         <div className="transfer-to-container">
           <label htmlFor="transfer-to">
             <AnimatedLetters
-              letterClass={letterClass}
               strArray={t("transaction-form.transfer-to").split("")}
               idx={15}
             />
@@ -94,7 +86,6 @@ export default function TransactionForm() {
         </div>
         <label htmlFor="amount">
           <AnimatedLetters
-            letterClass={letterClass}
             strArray={t("transaction-form.amount").split("")}
             idx={15}
           />
@@ -108,7 +99,6 @@ export default function TransactionForm() {
         />
         <button type="submit">
           <AnimatedLetters
-            letterClass={letterClass}
             strArray={t("transaction-form.send").split("")}
             idx={15}
           />
