@@ -12,11 +12,11 @@ export default function History() {
   const navigate = useNavigate();
   const storedUser = localStorage.getItem("username");
   const remitter = storedUser ? JSON.parse(storedUser).username : null;
-  const { data, isLoading, error } = useGetTransactions(remitter);
+  const { data, error } = useGetTransactions(remitter);
   const [t, i18n] = useTranslation("global");
 
   const history: Transaction[] = data ?? [];
-  const isEmpty = !isLoading && history.length === 0;
+  const isEmpty = history.length === 0;
 
   if (error) {
     return (
@@ -43,14 +43,7 @@ export default function History() {
         />
       </h1>
 
-      {isLoading ? (
-        <p className="loading">
-          <AnimatedLetters
-            strArray={t("transactions-history.loading").split("")}
-            idx={15}
-          />
-        </p>
-      ) : isEmpty ? (
+      {isEmpty ? (
         <ul className="transaction-info">
           <AnimatedLetters
             strArray={t("transactions-history.empty").split("")}
