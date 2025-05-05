@@ -39,8 +39,7 @@
   "transactions-history": {
     "h1": "Transactions History",
     "empty": "No transactions have been made",
-    "back": "Back",
-    "loading": "Loading..."
+    "back": "Back"
   },
   "not-found": {
     "h1": "Page not found",

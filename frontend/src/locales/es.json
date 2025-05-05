@@ -39,8 +39,7 @@
   "transactions-history": {
     "h1": "Historial De Transacciones",
     "empty": "No se han realizado transacciones",
-    "back": "Volver",
-    "loading": "Cargando..."
+    "back": "Volver"
   },
   "not-found": {
     "h1": "Página no encontrada",
