@@ -51,6 +51,11 @@
     "error-boundary-retry": "Retry",
     "invalid-credentials": "Invalid credentials",
     "unexpected": "An unexpected error occurred",
-    "transfer": "Amount and beneficiary are required"
+    "invalid-amount": "The amount must be greater than zero.",
+    "insufficient-balance": "Insufficient balance. Available: {{balance}}.",
+    "select-beneficiary": "Please select a beneficiary.",
+    "transfer": "Please fill in all required fields.",
+    "empty-fields": "All fields are required.",
+    "minimum-balance": "The minimum balance to register is ${{minBalance}}."
   }
 }

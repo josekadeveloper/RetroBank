@@ -23,7 +23,24 @@ export default function Register() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    const numericBalance = Number(balance);
+
+    if (!username || !password || !balance) {
+      toastNotification(Notification.ERROR, t("errors.empty-fields"));
+      return;
+    }
+
+    if (!numericBalance || numericBalance < 200) {
+      toastNotification(
+        Notification.ERROR,
+        t("errors.minimum-balance", { minBalance: 200 })
+      );
+      return;
+    }
+
     setIsSubmitting(true);
+    setTriggerValidation(true);
   };
 
   const handleSuccess = (exit: number) => {
@@ -98,11 +115,7 @@ export default function Register() {
           onChange={(e) => setBalance(e.target.value)}
           disabled={isSubmitting}
         />
-        <button
-          type="submit"
-          onClick={() => setTriggerValidation(true)}
-          disabled={isSubmitting}
-        >
+        <button type="submit">
           <AnimatedLetters
             strArray={t("register.create-account").split("")}
             idx={15}

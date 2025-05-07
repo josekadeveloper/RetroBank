@@ -7,12 +7,14 @@ import BalanceValidator from "../BalanceValidator/balance-validator";
 import { toastNotification } from "../ToastNotification/toast-notification";
 import AnimatedLetters from "../AnimatedLetters/animated-letters";
 import { Notification } from "../../models/model";
+import { useGetBalance } from "../../hooks/use-get-balance.hook";
 
 import "./transaction-form.scss";
 
 export default function TransactionForm() {
   const storedUser = localStorage.getItem("username");
   const remitter = storedUser ? JSON.parse(storedUser).username : null;
+  const { data } = useGetBalance(remitter);
   const [beneficiary, setBeneficiary] = useState("");
   const [amount, setAmount] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -27,8 +29,23 @@ export default function TransactionForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (amount === "" || beneficiary === "") {
-      toastNotification(Notification.ERROR, t("errors.transfer"));
+    const numericAmount = Number(amount);
+
+    if (!numericAmount || numericAmount <= 0) {
+      toastNotification(Notification.ERROR, t("errors.invalid-amount"));
+      return;
+    }
+
+    if (numericAmount > (data?.balance ?? 0)) {
+      toastNotification(
+        Notification.ERROR,
+        t("errors.insufficient-balance", { balance: data?.balance })
+      );
+      return;
+    }
+
+    if (beneficiary === "") {
+      toastNotification(Notification.ERROR, t("errors.select-beneficiary"));
       return;
     }
 
