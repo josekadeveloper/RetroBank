@@ -53,7 +53,7 @@
     "unexpected": "An unexpected error occurred",
     "invalid-amount": "The amount must be greater than zero.",
     "insufficient-balance": "Insufficient balance. Available: {{balance}}.",
-    "select-beneficiary": "Please select a beneficiary.",
+    "select-beneficiary": "Please select a valid beneficiary.",
     "transfer": "Please fill in all required fields.",
     "empty-fields": "All fields are required.",
     "minimum-balance": "The minimum balance to register is ${{minBalance}}."

@@ -44,7 +44,7 @@ export default function TransactionForm() {
       return;
     }
 
-    if (beneficiary === "") {
+    if (!beneficiary || !usersList?.map(String).includes(beneficiary)) {
       toastNotification(Notification.ERROR, t("errors.select-beneficiary"));
       return;
     }
